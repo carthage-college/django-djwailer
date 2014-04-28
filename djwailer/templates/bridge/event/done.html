@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Submit {{content_type|capfirst}} to the Carthage Bridge{% endblock %}
+{% block extra_style %}
+<style type="text/css">
+#twitter-widget-0 { background-color: #B8A57F; margin-left: 15px; padding: 5px; width: 225px; }
+widget {display:none;}
+.fright a img {display:none;}
+#third iframe {margin-bottom:30px;}
+</style>
+{% endblock %}
+{% block left_nav %}
+    {% include "bridge/left_nav.html" %}
+{% endblock %}
+{% block content %}
+<div id="second">
+    <div class="buffer">
+        <h1>Submit {{content_type|capfirst}}&mdash;Success</h1>
+        <p>
+            We have received your {{content_type}} submission.
+            <a href="{% url 'submission_form' content_type %}">Submit another</a>?
+        </p>
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}
+<div id="third">
+    <div id="sidebar-content" class="buffer">
+        <h1 class="header-red">Connect with us</h1>
+    </div>
+    {% include "douglasfir/bridge/social-media.php" %}
+    {% include "douglasfir/bridge/weather.php" %}
+</div>
+{% endblock %}

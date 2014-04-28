@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Submit an Event to the Carthage Bridge{% endblock %}
+{% block extra_javascript %}
+<script src="{{media_url}}js/jquery/ui/ui.core.js" type="text/javascript"></script>
+<script src="{{media_url}}js/jquery/ui/ui.datepicker.min.js" type="text/javascript"></script>
+<script src="{{media_url}}js/jquery/plugins/jquery.ptTimeSelect.js" type="text/javascript"></script>
+<script type="text/javascript" src="/static/forms/js/jHtmlArea-0.7.5.min.js"></script>
+<script src="http://www.carthage.edu/assets/js/jquery/ui/ui.core.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://www.carthage.edu/assets/js/jquery/plugins/jquery.blockUI.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    $("#id_description").htmlarea({
+        toolbar: ["html","bold", "italic", "underline", "superscript", "subscript", "|", "h1", "h2", "h3", "h4", "h5", "h6", "|", "indent", "outdent", "horizontalrule", "link", "unlink", "|", "orderedList", "unorderedList"]
+    });
+    $("#id_start_date, #id_end_date").datepicker({firstDay:0,appendText:"(format yyyy-mm-dd)",changeFirstDay:false,dateFormat:"yy-mm-dd",showOn:"both",buttonImage: "{{media_url}}img/ico/calendar.gif",buttonImageOnly:true});
+    $('#id_start_time').ptTimeSelect();
+    $('#id_end_time').ptTimeSelect();
+    $("#id_start_date").change(function () {
+        var date = $(this).val();
+        $("#id_end_date").val(date);
+    });
+});
+</script>
+{% endblock %}
+{% block extra_style %}
+<link href="{{media_url}}css/jquery/ui/ui.core.css" rel="stylesheet" type="text/css" />
+<link href="{{media_url}}css/jquery/ui/ui.theme.css" rel="stylesheet" type="text/css" />
+<link href="{{media_url}}css/jquery/plugins/jquery.ptTimeSelect.css" rel="stylesheet" type="text/css" />
+<link href="{{media_url}}css/jquery/ui/datepicker/ui.datepicker.css" rel="stylesheet" type="text/css" />
+<link rel="Stylesheet" type="text/css" href="/static/forms/css/jHtmlArea.css" />
+<style type="text/css">
+#ptTimeSelectCntr {color: #303030;background: #ebebeb;font: .74em Arial, Verdana, sans-serif;text-align: center;line-height: 1.6em;margin: 2.5em 0;}
+.tab_content_container {
+    width: 705px;
+}
+div.jHtmlArea .ToolBar ul { background: none; border: 0; }
+div.jHtmlArea .ToolBar ul li a.custom_disk_button { background: url(/static/forms/css/disk.png) no-repeat; background-position: 0 0; }
+div.jHtmlArea { width:500px !important;border: solid 1px #ccc; background: #efefef; }
+iframe {width:500px !important;height:300px !important;background: #fff;border: solid 1px #ccc;}
+    #second ul, #second ol { margin: 0; }
+    #second li {margin-left:0;}
+</style>
+{% endblock %}
+{% block left_nav %}
+    {% include "bridge/left_nav.html" %}
+{% endblock %}
+{% block content %}
+<div id="second">
+    <div class="buffer">
+        <h1>Submit an Event</h1>
+        <p class="intro">
+            Complete the form below to submit your event to the Carthage Calendar.
+        </p>
+        <h4>WHERE WILL MY EVENT SHOW UP?</h4>
+        <p>
+            Your event will appear in the main Carthage calendar at <a href="http://www.carthage.edu/calendar/">www.carthage.edu/calendar</a>, and in the Event list on <a href="http://www.carthage.edu/bridge">The Bridge website</a>. It may be selected for publication on additional webpages, such as the Carthage Homepage or academic department pages. <strong>Events are NOT included in the twice-weekly Bridge email.</strong> If you would like your event included in the email, please <a href="/bridge/submit/">submit a news story too</a>.
+        </p>
+        <h4>WHEN WILL MY EVENT BE PUBLISHED?</h4>
+        <p>
+            If you are a Carthage faculty or staff member, it will show up immediately. If you are a Carthage student, your event will show up once it has been approved by a moderator in the Office of Student Life.
+        </p>
+        <h4>WHEN SHOULD I SUBMIT MY EVENT?</h4>
+        <p>
+            You can submit your event as soon as you have all the details&mdash;the name of your event, description, time, date, place, and cost.
+        </p>
+        <h4>I'D LIKE TO INCLUDE A PHOTO OR POSTER.</h4>
+        <p>
+            The Bridge submission form does not currently accept photos, but if you have a photo you would like included in your listing, you may email it as an attachment to <a href="mailto:bridge@carthage.edu">bridge@carthage.edu</a>. Please put "Photo for Calendar Listing" in your subject line, and make sure you include the name and date of the event.
+        </p>
+        {% include "includes/generic_form.html" %}
+    </div>
+</div>
+{% endblock %}
+{# block sidebar #}
+    {# include "bridge/sidebar.html" #}
+{# endblock #}

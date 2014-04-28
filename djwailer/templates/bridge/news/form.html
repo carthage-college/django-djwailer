@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Submit a News Item to the Carthage Bridge{% endblock %}
+{% block extra_javascript %}
+<script src="{{media_url}}js/jquery/ui/ui.core.js" type="text/javascript"></script>
+<script type="text/javascript" src="/static/forms/js/jHtmlArea-0.7.5.min.js"></script>
+<script src="http://www.carthage.edu/assets/js/jquery/ui/ui.core.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://www.carthage.edu/assets/js/jquery/plugins/jquery.blockUI.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    $("textarea").htmlarea({
+        toolbar: ["html","bold", "italic", "underline", "superscript", "subscript", "|", "h1", "h2", "h3", "h4", "h5", "h6", "|", "indent", "outdent", "horizontalrule", "link", "unlink", "|", "orderedList", "unorderedList"]
+    });
+    $('.jHtmlArea:eq(0) iframe').css('height','100px');
+    $('.jHtmlArea:eq(1) iframe').css('height','300px');
+});
+</script>
+{% endblock %}
+{% block extra_style %}
+<link href="{{media_url}}css/jquery/ui/ui.core.css" rel="stylesheet" type="text/css" />
+<link href="{{media_url}}css/jquery/ui/ui.theme.css" rel="stylesheet" type="text/css" />
+<link rel="Stylesheet" type="text/css" href="/static/forms/css/jHtmlArea.css" />
+<style type="text/css">
+.tab_content_container {
+    width: 705px;
+}
+div.jHtmlArea .ToolBar ul { background: none; border: 0; }
+div.jHtmlArea .ToolBar ul li a.custom_disk_button { background: url(/static/forms/css/disk.png) no-repeat; background-position: 0 0; }
+div.jHtmlArea { width:500px !important;border: solid 1px #ccc; background: #efefef; }
+iframe {width:500px !important;background: #fff;border: solid 1px #ccc;}
+#second ul, #second ol { margin: 0; }
+#second li {margin-left:0;}
+</style>
+{% endblock %}
+{% block left_nav %}
+    {% include "bridge/left_nav.html" %}
+{% endblock %}
+{% block content %}
+<div id="second">
+    <div class="buffer">
+        <h1>Submit a News Item</h1>
+              <p>
+                Complete the form below to submit a news story to The Bridge.
+              </p>
+              <h4>WHERE WILL MY STORY SHOW UP?</h4>
+              <p>
+                Your story will appear in on The Bridge within the section you select: News &amp; Notices, Arts &amp; Performances, Kudos, Lectures &amp; Presentations, Student News, etc. It may be selected for publication on additional webpages, such as the Carthage Homepage or academic department pages<strong>. Your news story will NOT appear in the main Carthage calendar.</strong> If you are publicizing an event, and you'd like it to appear in the calendar, <a href="/bridge/submit/">please submit an event too</a>.
+              </p>
+              <h4>WHEN WILL MY STORY BE PUBLISHED?</h4>
+              <p>
+                If you are a Carthage faculty or staff member, it will show up immediately. If you are a Carthage student, your news story will show up once it has been approved by a moderator in the Office of Student Life.
+              </p>
+              <h4>WHEN SHOULD I SUBMIT MY NEWS STORY?</h4>
+              <p>
+                Timing is completely up to you, but please keep in mind that your news story will be included in the <em>next</em> Bridge email roundup. So if you are publicizing an event, it may be best to wait until the date of your event is 2-4 days away. If you'd rather announce an exciting event now ("Carthage is bringing a new lecture series to campus!"), go ahead. But then remember to share the news again as the event nears ("New lecture series presents first lecture on Friday").
+              </p>
+              <h4>I'D LIKE TO INCLUDE A PHOTO OR POSTER.</h4>
+              <p>
+                The Bridge submission form does not currently accept photos, but if you have a photo you would like included in your news story, you may email it as an attachment to <a href="mailto:bridge@carthage.edu">bridge@carthage.edu</a>. Please put "Photo for News Story" in your subject line, and make sure you include the headline of the story.
+              </p>
+        {% include "includes/generic_form.html" %}
+    </div>
+</div>
+{% endblock %}
+{# block sidebar #}
+    {# include "bridge/sidebar.html" #}
+{# endblock #}

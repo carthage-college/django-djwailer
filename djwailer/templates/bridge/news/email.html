@@ -1,0 +1,12 @@
+<h1>News Submission</h1>
+<pre style="font-size:1.5em;">
+First name.................. {{data.user.first_name}}
+Last name................... {{data.user.last_name}}
+Email....................... {{data.user.email}}
+Headline.................... {{data.headline}}
+</pre>
+<h4>Summary</h4>
+<div style="width:600px;font-size:1.5em;">{{data.summary|safe}}</div>
+<h4>Content</h4>
+<div style="width:600px;font-size:1.5em;">{{data.body|safe}}</div>
+<p><a href="{{data.get_absolute_url}}">Manage this news item</a></p>

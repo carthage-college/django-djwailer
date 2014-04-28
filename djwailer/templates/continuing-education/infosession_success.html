@@ -1,0 +1,16 @@
+{% extends "djcedu/data_entered.html" %}
+{% load livewhale_api %}
+{% block title %}Adult Education: Information Session Submitted Successfully{% endblock %}
+{% block content %}
+<div id="first"></div>
+<div id="second">
+    <div class="buffer">
+    <h2 class="page_title">Thanks for signing up for the information session. </h2>
+    <p class="description" style="color: green">You will receive a confirmation by e-mail. If you have any questions, please let us know.</p>
+    </div>
+</div>
+<div id="fourth">
+    {% get_lw_content as contact blurbs 1349 %}
+    {{contact.body}}
+</div>
+{% endblock %}

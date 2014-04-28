@@ -1,0 +1,88 @@
+{% load get_api %}
+<div id="first">
+  <ul id="nav">
+    <li class="lw_current lw_files_php lw_item_1 lw_active">
+      <a href="/bridge/" title="THE BRIDGE">THE BRIDGE</a>
+    </li>
+    <li class="lw_item_2">
+      <a href="http://www.carthage.edu/djwailer/bridge/news/" title="Submit news" class="lw_external_url">Submit news</a>
+    </li>
+    <li class="lw_item_3">
+      <a href="http://www.carthage.edu/djwailer/bridge/event/" title="Submit event" class="lw_external_url">Submit event</a>
+    </li>
+    <li class="lw_files_php lw_item_4">
+      <a href="/bridge/about/" title="About the Bridge">About the Bridge</a>
+    </li>
+    <li class="last-featured">
+      <a href="/bridge/faq/" title="FAQ">FAQ</a>
+    </li>
+    <li class="lw_item_7">
+      <a href="/bridge/" title="SECTIONS">SECTIONS</a>
+    </li>
+    <li class="lw_files_php lw_item_8">
+      <a href="/bridge/news-notices/" title="News &amp; Notices">News &amp; Notices</a>
+    </li>
+    <li class="lw_files_php lw_item_9">
+      <a href="/bridge/lectures-presentations/" title="Lectures &amp; Presentations">Lectures &amp; Presentations</a>
+    </li>
+    <li class="lw_files_php lw_item_10">
+      <a href="/bridge/art-performances/" title="Art &amp; Performances">Art &amp; Performances</a>
+    </li>
+    <li class="lw_files_php lw_item_11">
+      <a href="/bridge/faculty/news/" title="News for Faculty">News for Faculty</a>
+    </li>
+    <li class="lw_files_php lw_item_12">
+      <a href="/bridge/students/news/" title="News for Students">News for Students</a>
+    </li>
+    <li class="lw_files_php lw_item_13">
+      <a href="/bridge/students/activities/" title="Student Activities">Student Activities</a>
+    </li>
+    <li class="lw_files_php lw_item_14">
+      <a href="/bridge/technology/" title="Technology">Technology</a>
+    </li>
+    <li class="last-featured">
+      <a href="/bridge/kudos/" title="Kudos">Kudos</a>
+    </li>
+    <li class="lw_item_17">
+      <a href="/bridge/" title="RESOURCES">RESOURCES</a>
+    </li>
+    <li class="lw_files_php lw_item_18">
+      <a href="/about/a-z/" title="Carthage A-Z">Carthage A-Z</a>
+    </li>
+    <li class="lw_files_php lw_item_19">
+      <a href="/advising/" title="Academic Advising at Carthage">Academic Advising at Carthage</a>
+    </li>
+    <li class="lw_item_20">
+      <a href="http://www.carthage.edu/bookstore/" title="Book Store" class="lw_external_url">Book Store</a>
+    </li>
+    <li class="lw_item_21">
+      <a href="/calendar/" title="Calendar">Calendar</a>
+    </li>
+    <li class="lw_item_22">
+      <a href="/dining/" title="Dining">Dining</a>
+    </li>
+    <li class="lw_files_php lw_item_23">
+      <a href="/library/" title="Library">Library</a>
+    </li>
+    <li class="lw_files_aspx lw_item_24">
+      <a href="https://astra.carthage.edu/Astra/Portal/GuestPortal.aspx" title="Room Scheduler" class="lw_external_url">Room Scheduler</a>
+    </li>
+    <li class="last-featured">
+      <a href="/provost/faculty/" title="For Faculty">For Faculty</a>
+    </li>
+    {% if not user.is_anonymous %}
+        <li>
+            <a href="{{root_url}}accounts/logout/?next={{request.path}}">Logout</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{{login_url}}?next={{request.path}}">Login</a>
+        </li>
+    {% endif %}
+    {% if user.is_superuser %}
+        <li><a href="/forms/admin/">Administration</a></li>
+    {% endif %}
+    </ul>
+    {% get_api_object as adverts cms snippet 1248 code %}
+    {{adverts}}
+</div>

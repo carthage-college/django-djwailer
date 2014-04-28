@@ -1,0 +1,29 @@
+{{data.first_name}} {{data.last_name}} has submitted a request for information:
+
+Home Address:................{{data.address}}
+City:........................{{data.city}}
+State:.......................{{data.state}}
+ZIP Code:....................{{data.postal_code}}
+Phone:.......................{{data.phone}}
+Email:.......................<{{data.email}}>
+
+Concerning the following programs:
+{% for program in data.academic_programs %}
+{{program}}{% endfor %}
+
+Best time to contact:
+
+{{data.time_of_day}}
+
+How did you hear about the program?
+
+{{data.hear_about}}
+{% if data.hear_other %}
+If other, please specify:
+
+{{data.hear_other}}
+{% endif %}
+
+CSV:
+
+{{data.first_name}}	{{data.last_name}}	{{data.address}}	{{data.city}}	{{data.state}}	{{data.postal_code}}	{{data.phone}}	{{data.email}}	{% for program in data.academic_programs %}{{program}} {% endfor %}	{{data.time_of_day}}	{{data.hear_about}}	{{data.hear_other}}

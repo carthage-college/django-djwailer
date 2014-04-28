@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}The Carthage Bridge is down for Maintenance{% endblock %}
+{% block extra_style %}
+<style type="text/css">
+#twitter-widget-0 { background-color: #B8A57F; margin-left: 15px; padding: 5px; width: 225px; }
+widget {display:none;}
+.fright a img {display:none;}
+#third iframe {margin-bottom:30px;}
+</style>
+{% endblock %}
+{% block left_nav %}
+    {% include "bridge/left_nav.html" %}
+{% endblock %}
+{% block content %}
+<div id="second">
+    <div class="buffer">
+    <h1>We're sorry, but we're updating our software at the moment!</h1>
+    <p>We are currently updating the software we use to manage content on the Carthage website. For this reason, The Bridge will not be able to accept submissions between 5 p.m. and midnight Wednesday, March 12. Please try to submit your story again after midnight. Thank you!</p>
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}
+<div id="third">
+    <div id="sidebar-content" class="buffer">
+        <h1 class="header-red">Connect with us</h1>
+    </div>
+    {% include "douglasfir/bridge/social-media.php" %}
+    {% include "douglasfir/bridge/weather.php" %}
+</div>
+{% endblock %}

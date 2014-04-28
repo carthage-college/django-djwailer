@@ -1,0 +1,53 @@
+"The Bridge" group = 94
+
+EVENTS
+
+id  gid  title   date_dt     date2_dt    timezone    is_all_day  summary     description     url     source  status  location    date_created    last_modified   last_user   created_by  is_shared   views   contact_info
+
+774 16  test    2013-07-21 21:20:00     2013-07-31 22:20:00     America/Chicago     NULL    test    <p>test</p>    NULL    NULL    2   NULL    2013-07-21 10:38:15     2013-07-21 10:38:15     3   3   1   NULL
+
+
+livewhale_events_categories2any
+
+id1  id2    type
+7   774     events
+
+7=Community
+774 = id of event
+
+livewhale_tags2any
+
+id1  id2     type
+477     774     events
+
+477 = tag id from livewhale_tags  ("Kudos" tag, in this case)
+774 = id of event
+
+
+NEWS
+
+livewhale_news
+
+id  gid     suggested   parent  headline    summary     status  date    date_dt     body    contact_info    rank    date_created    last_modified   last_user   created_by  url     source  is_starred  golive  expiration  lookup  gallery_id  is_archived     has_invalid_url     is_shared   views
+
+219     75  NULL    NULL    Visiting columnist issues challenge to fight moder...   Leading off a monthlong series of events, Pulitzer...   1   03/11/2013  2013-03-11 00:00:00     <p>
+ <widget type="image"><arg id="id">953</arg><...    NULL    0   2013-07-19 11:29:26     2013-07-19 11:29:26     15  15  NULL    NULL    NULL    NULL    NULL    thumb,images    NULL    NULL    NULL    1   NULL
+
+headline
+body
+url
+
+date_created = autoadd
+last_modified = auto
+last_user = 7
+created_by = 7
+
+date = dd/mm/yyyy
+date_dt = datetime format 2013-03-11 00:00:00
+gid = 94
+status = 1
+contact_info = request.user
+
+livewhale_tags2any
+
+(see above)
