@@ -9,12 +9,14 @@
 <h1>News from The Bridge</h1>
 <p><a href="{{top.get_absolute_url}}">{{top.headline|safe}}</a></p>
 {% for h in data.news %}
+    {% if h.1 %}
     <h3>{{h.0}}</h3>
     <ul>
     {% for n in h.1 %}
     <li><a href="{{n.get_absolute_url}}">{{n.headline|safe}}</a></li>
     {% endfor %}
     </ul>
+    {% endif %}
 {% endfor %}
 <h3><a style="color:#800" href="http://www.carthage.edu/calendar/#view/month">See the Carthage Calendar of Events</a></h3>
 <h4><a style="color:#800" href="http://www.carthage.edu/bridge/submit/">Submit your news to The Bridge</a></h4>

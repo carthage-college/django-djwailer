@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from djtools.utils.database import mysql_db
-
 import datetime
 import MySQLdb
 
