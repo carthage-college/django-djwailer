@@ -8,6 +8,10 @@ import urllib, json, sys
 """
 Shell script that manages data exported from
 Informix in JSON format and imported into MySQL.
+
+URL structure:
+
+http://www.carthage.edu/jenzabar/api/catalog/UG14/PHY/
 """
 
 #set up command-line options
@@ -20,7 +24,9 @@ parser.add_option("-u", "--url", help="url that returns JSON data", dest="earl")
 
 def get_profile_id(email):
     try:
-        profile = LivewhaleProfilesFields.objects.filter(fid=37).filter(value=email).order_by('pid')[0]
+        profile = LivewhaleProfilesFields.objects.filter(
+            fid=37
+        ).filter(value=email).order_by('pid')[0]
         pid = profile.pid
     except:
         pid = None
@@ -39,21 +45,31 @@ def main():
         if s.object.max_hrs == s.object.min_hrs:
             s.object.credits = int(s.object.max_hrs)
         else:
-            s.object.credits = "%s-%s" % (int(s.object.min_hrs), int(s.object.max_hrs))
+            s.object.credits = "%s-%s" % (
+                int(s.object.min_hrs), int(s.object.max_hrs)
+            )
         name = "%s %s" % (s.object.firstname, s.object.lastname)
         pid = get_profile_id(s.object.email)
         if pid:
-           p = '<a href="/live/profiles/%s-%s-%s/">%s</a>' % (pid, s.object.firstname, s.object.lastname, name)
+            p = '<a href="/live/profiles/%s-%s-%s/">%s</a>' % (
+                pid, s.object.firstname, s.object.lastname, name
+            )
         else:
-           p = name
+            p = name
         s.object.instructors = p
         s.save(using="livewhale")
 
     # search for duplicates and concatenate instructors and terms
     # from duplicates and then remove them
 
-    for c in LivewhaleCourseCatalog.objects.using('livewhale').values_list('crs_no', flat=True).distinct():
-        dupes =  LivewhaleCourseCatalog.objects.using('livewhale').filter(pk__in=LivewhaleCourseCatalog.objects.filter(crs_no=c).values_list('id', flat=True))
+    for c in LivewhaleCourseCatalog.objects.using('livewhale').values_list(
+            'crs_no', flat=True
+        ).distinct():
+        dupes =  LivewhaleCourseCatalog.objects.using('livewhale').filter(
+            pk__in=LivewhaleCourseCatalog.objects.filter(crs_no=c).values_list(
+                'id', flat=True
+            )
+        )
         course = dupes[0]
         if len(dupes) > 1:
             # we put professors and terms in lists so we can check for

@@ -1,14 +1,14 @@
 {% extends "bridge/email.html" %}
 {% block head %}
     {% if user.is_superuser %}
-    <link rel="stylesheet" href="//www.carthage.edu/styles/third-party/grid-960.css" type="text/css" media="screen, projection"/>
-    <link rel="stylesheet" href="//www.carthage.edu/assets/1.0.0/css/plugins/forms.css" type="text/css" media="screen, projection"/>
+    <link href="//www.carthage.edu/themes/shared/css/forms.css"
+        rel="stylesheet" type="text/css" />
     {% endif %}
 {% endblock %}
 {% block footer %}
     {% if user.is_superuser %}
     <h2>Email Manager</h2>
-    <div class="span-12">
+    <div class="forms-container">
     {% include "includes/generic_form.html" %}
     </div>
 {% endif %}
