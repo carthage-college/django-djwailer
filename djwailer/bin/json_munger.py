@@ -11,7 +11,10 @@ Informix in JSON format and imported into MySQL.
 
 URL structure:
 
+Physics
 http://www.carthage.edu/jenzabar/api/catalog/UG14/PHY/
+ALL
+http://www.carthage.edu/jenzabar/api/catalog/UG14/
 """
 
 #set up command-line options

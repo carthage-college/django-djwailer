@@ -8,7 +8,7 @@
 <script src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function() {
-    $("#id_description").htmlarea({
+    $("textarea").htmlarea({
         toolbar: [
             "html","bold", "italic", "underline", "superscript",
             "subscript", "|", "h1", "h2", "h3", "h4", "h5", "h6",
@@ -55,21 +55,23 @@ iframe {width:500px !important;height:300px !important;background: #fff;border: 
 {% endblock %}
 {% block sidebar %}{% endblock %}
 {% block content %}
+    <h1>Submit an Event</h1>
+    <p>
+        Complete the form below to submit your event to the
+        Carthage website. Your event will appear on
+        <a href="/bridge">The Bridge</a>, Carthage's website
+        for campus news and announcements. Your event will
+        also appear on the main Carthage
+        <a href="/calendar/">calendar</a>.
+    </p>
+    <p>
+        <strong>Please note: Your event may appear without editing</strong>,
+        along with your name, on the Carthage website, so please
+        submit your event in publishable form.
+    </p>
+{% endblock %}
+{% block extra_content %}
     <div class="forms-container">
-        <h1>Submit an Event</h1>
-        <p>
-            Complete the form below to submit your event to the
-            Carthage website. Your event will appear on
-            <a href="/bridge">The Bridge</a>, Carthage's website
-            for campus news and announcements. Your event will
-            also appear on the main Carthage
-            <a href="/calendar/">calendar</a>.
-        </p>
-        <p>
-            <strong>Please note: Your event may appear without editing</strong>,
-            along with your name, on the Carthage website, so please
-            submit your event in publishable form.
-        </p>
         {% include "includes/generic_form.html" %}
     </div>
 {% endblock %}

@@ -331,7 +331,7 @@ class LivewhaleEvents(models.Model):
                 INSERT INTO livewhale_tags2any
                     (id1, id2, type)
                 VALUES
-                    ('%s', '%s', 'events')
+                    (%s, %s, 'events')
             """ % (data["category"],self.id)
             #cursor = connection.cursor()
             #cursor.execute(sql)
@@ -341,7 +341,7 @@ class LivewhaleEvents(models.Model):
                 INSERT INTO livewhale_events_categories2any
                     (id1, id2, type)
                 VALUES
-                    ('%s', '%s', 'events')
+                    (%s, %s, 'events')
             """ % (30,self.id)
             #cursor.execute(sql)
             mysql_db(sql,db="livewhale")
@@ -832,7 +832,7 @@ class LivewhaleNews(models.Model):
                 INSERT INTO livewhale_tags2any
                     (id1, id2, type)
                 VALUES
-                    ('%s', '%s', 'news')
+                    (%s, %s, 'news')
             """ % (data["category"],self.id)
             #cursor.execute(sql)
             mysql_db(sql,db="livewhale")
