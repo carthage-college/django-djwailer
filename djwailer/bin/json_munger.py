@@ -13,8 +13,12 @@ URL structure:
 
 Physics
 http://www.carthage.edu/jenzabar/api/catalog/UG14/PHY/
-ALL
 http://www.carthage.edu/jenzabar/api/catalog/UG14/
+All Graduate Courses
+http://www.carthage.edu/jenzabar/api/catalog/GR14/
+
+OJO: after importing the UG14 courses, you have to comment out
+the delete portion of the script and then run the GR14 URL.
 """
 
 #set up command-line options
