@@ -6,9 +6,12 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 
-from djwailer.bridge.forms import EventSubmissionForm, NewsSubmissionForm, NewsletterForm
+from djwailer.bridge.forms import EventSubmissionForm, NewsSubmissionForm
+from djwailer.bridge.forms import NewsletterForm
 from djwailer.core.models import LivewhaleEvents2Any, TAGS
-from djwailer.core.models import LivewhaleEventsCategories2Any, LivewhaleNews
+from djwailer.core.models import LivewhaleEventsCategories2Any
+from djwailer.core.models import LivewhaleNews as News
+from djwailer.core.models import LivewhaleEvents as Events
 from djtools.utils.mail import send_mail
 from djtools.utils.users import in_group
 from djtools.decorators.auth import superuser_only
@@ -20,14 +23,20 @@ BCC = settings.MANAGERS
 NOW = datetime.date.today()
 
 @login_required
-def submission_form(request, content_type):
-    # try/catch works as 404 detector and GET initialization for forms
+def submission_form(request, content_type, oid=None):
+    # try/catch works as 404 detector
+    # and GET initialization for forms
     try:
         form = eval(content_type.capitalize() + "SubmissionForm")()
         email_template = "bridge/%s/email.html" % content_type
         os.stat(os.path.join(settings.ROOT_DIR, "templates", email_template))
     except:
         raise Http404
+
+    if oid and request.user.is_superuser:
+        obj = eval(
+            content_type.capitalize()
+        ).objects.using("livewhale").get(pk=oid)
 
     if request.POST:
         form = eval(content_type.capitalize() + "SubmissionForm")(request.POST)
@@ -67,7 +76,6 @@ def submission_form(request, content_type):
     )
 
 def submission_success(request, content_type):
-    from djwailer.core.models import LivewhaleNews
     return render_to_response(
         "bridge/%s/done.html" % content_type,
         {"content_type": content_type,},
@@ -75,8 +83,7 @@ def submission_success(request, content_type):
     )
 
 def unicode_test(request,oid):
-    from djwailer.core.models import LivewhaleNews
-    funky = LivewhaleNews.objects.using('livewhale').get(pk=oid)
+    funky = News.objects.using('livewhale').get(pk=oid)
     return render_to_response(
         "bridge/unicode.html",
         {"funky":funky,},
@@ -90,7 +97,7 @@ def fetch_newsletter(days=4):
         days = 5
     past = NOW - datetime.timedelta(days=days)
     # fetch the news
-    news = LivewhaleNews.objects.using('livewhale').filter(gid=settings.BRIDGE_GROUP).filter(status=1).filter(date_dt__lte=NOW).filter(is_archived__isnull=True).exclude(date_dt__lte=past)
+    news = News.objects.using('livewhale').filter(gid=settings.BRIDGE_GROUP).filter(status=1).filter(date_dt__lte=NOW).filter(is_archived__isnull=True).exclude(date_dt__lte=past)
     for n in news:
         tid = n.tag(jid=True)
         if tid:

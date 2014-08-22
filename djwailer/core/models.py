@@ -21,7 +21,6 @@ CATEGORIES = (
     ('477','Kudos'),
     ('501','Faculty & Staff News'),
     ('502','Student News'),
-    ('503','Student Activities'),
     ('504','Technology'),
 )
 
@@ -32,7 +31,6 @@ SLUGS = {
     477:'kudos',
     501:'faculty-staff-news',
     502:'students/news',
-    503:'students/activities',
     504:'technology'
 }
 
@@ -43,8 +41,7 @@ TAGS = {
     477:['Kudos',[]],
     501:['Faculty & Staff News',[]],
     502:['Student News',[]],
-    503:['Student Activities',[]],
-    504:['Library & Technology',[]],
+    504:['Technology',[]],
     544:['Top News Story',[]]
 }
 

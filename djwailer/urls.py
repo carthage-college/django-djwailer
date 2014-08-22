@@ -43,10 +43,6 @@ urlpatterns = patterns('',
         TemplateView.as_view(template_name="bridge/maintenance_mode.html")
     ),
     url(
-        r'^continuing-education/',
-        include('djwailer.continuing_education.urls')
-    ),
-    url(
         r'^$',
         RedirectView.as_view(url="/djwailer/accounts/")
     ),
