@@ -75,6 +75,34 @@ def get_tag(sid,jid):
         #obj = str('<strong>%s</strong>' % e)
         return ""
 
+class LivewhaleUsers(models.Model):
+    id = models.IntegerField(primary_key=True)
+    gid = models.IntegerField()
+    username = models.CharField(max_length=765, unique=True)
+    password = models.CharField(max_length=765, blank=True)
+    email = models.CharField(max_length=765, blank=True)
+    firstname = models.CharField(max_length=765, blank=True)
+    lastname = models.CharField(max_length=765, blank=True)
+    name = models.CharField(max_length=765, blank=True)
+    last_login = models.DateTimeField(null=True, blank=True)
+    last_access = models.DateTimeField(null=True, blank=True)
+    authorized_modules = models.CharField(max_length=1500, blank=True)
+    use_email = models.CharField(max_length=3, blank=True)
+    switch_groups = models.CharField(max_length=15000, blank=True)
+    total_errors = models.IntegerField(null=True, blank=True)
+    tag = models.IntegerField(null=True, blank=True)
+    navigation = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = u'livewhale_users'
+
+class LivewhaleUsersSettings(models.Model):
+    uid = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=765, primary_key=True)
+    value = models.CharField(max_length=765)
+    class Meta:
+        db_table = u'livewhale_users_settings'
+
 class LivewhaleActivity(models.Model):
     id = models.IntegerField(primary_key=True)
     gid = models.IntegerField()
@@ -1062,6 +1090,7 @@ class LivewhaleProfiles(models.Model):
     date_created = models.DateTimeField()
     last_modified = models.DateTimeField()
     last_user = models.IntegerField()
+    #last_user = models.ForeignKey(LivewhaleUsers, db_column="id", related_name="profile_last_user")
     created_by = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
     lookup = models.CharField(max_length=765, blank=True)
@@ -1073,6 +1102,7 @@ class LivewhaleProfiles(models.Model):
     rank = models.IntegerField(null=True, blank=True)
     contact_info = models.CharField(max_length=3000, blank=True)
     username = models.CharField(max_length=765, blank=True)
+
     class Meta:
         db_table = u'livewhale_profiles'
 
@@ -1210,34 +1240,6 @@ class LivewhaleUrlsShortened(models.Model):
     date_created = models.DateTimeField(null=True, blank=True)
     class Meta:
         db_table = u'livewhale_urls_shortened'
-
-class LivewhaleUsers(models.Model):
-    id = models.IntegerField(primary_key=True)
-    gid = models.IntegerField()
-    username = models.CharField(max_length=765, unique=True)
-    password = models.CharField(max_length=765, blank=True)
-    email = models.CharField(max_length=765, blank=True)
-    firstname = models.CharField(max_length=765, blank=True)
-    lastname = models.CharField(max_length=765, blank=True)
-    name = models.CharField(max_length=765, blank=True)
-    last_login = models.DateTimeField(null=True, blank=True)
-    last_access = models.DateTimeField(null=True, blank=True)
-    authorized_modules = models.CharField(max_length=1500, blank=True)
-    is_admin = models.CharField(max_length=3, blank=True)
-    is_reporter = models.CharField(max_length=3, blank=True)
-    use_email = models.CharField(max_length=3, blank=True)
-    switch_groups = models.CharField(max_length=15000, blank=True)
-    total_errors = models.IntegerField(null=True, blank=True)
-    tag = models.IntegerField(null=True, blank=True)
-    class Meta:
-        db_table = u'livewhale_users'
-
-class LivewhaleUsersSettings(models.Model):
-    uid = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=765, primary_key=True)
-    value = models.CharField(max_length=765)
-    class Meta:
-        db_table = u'livewhale_users_settings'
 
 class LivewhaleWidgetCache(models.Model):
     host = models.CharField(max_length=150)

@@ -1,0 +1,28 @@
+<!DOCTYPE>
+<html>
+<head></head>
+<body>
+{% for p in data %}
+    <h3>
+        <a href="https://www.carthage.edu/live/profiles/{{p.id}}/">
+            {{p.firstname}} {{p.lastname}}
+        </a>
+    </h3>
+    {% if p.username %}
+    <p>
+        <strong>Email address:</strong>
+        <a href="mailto:{{p.username}}@carthage.edu">
+            {{p.username}}@carthage.edu
+        </a>
+    </p>
+    {% endif %}
+    <h4>Modified by</h4>
+    <p>
+        <a href="mailto:{{p.modified_by.username}}@carthage.edu">
+            {{p.modified_by.firstname}} {{p.modified_by.lastname}}
+        </a>
+    </p>
+    <hr />
+{% endfor %}
+</body>
+</html>
