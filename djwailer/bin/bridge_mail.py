@@ -2,8 +2,10 @@
 import os, sys
 
 # env
-sys.path.append('/usr/local/lib/python2.7/')
 sys.path.append('/usr/lib/python2.7/')
+sys.path.append('/usr/lib/python2.7/dist-packages/')
+sys.path.append('/usr/local/lib/python2.7/dist-packages/')
+sys.path.append('/data2/django_current/')
 sys.path.append('/data2/django_projects/')
 sys.path.append('/data2/django_third/')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djwailer.settings")
@@ -22,10 +24,11 @@ from optparse import OptionParser
 Shell script that sends out email to students/faculty/staff
 with news and events from LiveWhale data
 
-Delivery:
+Cron delivery for testing at:
 
-Tuesday @ 6h
-friday @ 6h
+Monday @ 7h
+Wednesday @ 7h
+Friday @ 7h
 """
 
 # set up command-line options

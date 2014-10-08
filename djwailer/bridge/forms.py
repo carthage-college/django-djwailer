@@ -65,16 +65,16 @@ class EventSubmissionForm(forms.ModelForm):
 
 class NewsSubmissionForm(forms.ModelForm):
     headline = forms.CharField(max_length=255)
-    summary = forms.CharField(
-        widget=forms.Textarea,
-        help_text="""
-            Short text that serves as an introduction to your
-            story in lists, like on the Bridge home page, and
-            in the Bridge emails.
-        """
-    )
     body = forms.CharField(
+        label="Body of Article",
         widget=forms.Textarea
+    )
+    summary = forms.CharField(
+        label = """
+            Short Summary (One-or two-sentence summary of your
+            news that will serve as an introduction to your
+            article)""",
+        widget=forms.Textarea,
     )
     category = forms.CharField(
         widget=forms.Select(choices=CATEGORIES, attrs=REQ)
@@ -82,7 +82,7 @@ class NewsSubmissionForm(forms.ModelForm):
 
     class Meta:
         model = LivewhaleNews
-        fields = ('headline','summary','body')
+        fields = ('headline','body','summary')
 
 class NewsletterForm(forms.Form):
     send_to = forms.CharField(

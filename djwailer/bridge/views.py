@@ -90,11 +90,22 @@ def unicode_test(request,oid):
         context_instance=RequestContext(request)
     )
 
-def fetch_newsletter(days=4):
-    # dates
-    #days = 4
-    if NOW.strftime("%w") == '2':
-        days = 5
+def fetch_newsletter(days=None):
+    """
+    1 Monday's Bridge email includes everything posted on and since Friday.
+    3 Wednesday's email includes everything posted on and since Monday.
+    5 Friday's email includes everything posted on and since Wednesday.
+    """
+    # todays numeric value
+    day = NOW.strftime("%w")
+    # default number of days within which to fetch stories
+    # is 4, unless wed or fri or we pass a value to this method
+    if not days:
+        if day == '3' or day == '5':
+            days = 3
+        else:
+            days = 4
+
     past = NOW - datetime.timedelta(days=days)
     # fetch the news
     news = News.objects.using('livewhale').filter(gid=settings.BRIDGE_GROUP).filter(status=1).filter(date_dt__lte=NOW).filter(is_archived__isnull=True).exclude(date_dt__lte=past)
@@ -112,7 +123,7 @@ def email_test(request):
     if request.GET.get("days"):
         days=int(request.GET.get("days"))
     else:
-        days=4
+        days = None
     data = fetch_newsletter(days=days)
     form = NewsletterForm()
     if request.POST:
@@ -122,8 +133,8 @@ def email_test(request):
             arg = "n"
             if cd["send_to"] == "True":
                 arg = "y"
-            # ok, don't even ask about this #chaputza. bloody livewhale
-            os.system("/usr/bin/python /data2/django_projects/django-djwailer/djwailer/bin/bridge_mail.py -s %s" % arg)
+            # ok, don't even ask about this #chaputza. bloody livewhale.
+            os.system("/usr/bin/python %s/bin/bridge_mail.py -s %s" % (settings.ROOT_DIR, arg))
             return HttpResponseRedirect(reverse('email_test'))
     t = loader.get_template('bridge/newsletter.html')
     c = RequestContext(request, {'data': data,'form':form,})
