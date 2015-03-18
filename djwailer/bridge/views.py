@@ -51,7 +51,7 @@ def submission_form(request, content_type, oid=None):
                 usr.last_name
             )
             # recipients
-            if not in_group(usr, "Staff", "Faculty"):
+            if not in_group(usr, "carthageStaffStatus", "carthageFacultyStatus"):
                 TO_LIST = settings.BRIDGE_STUDENT
             else:
                 TO_LIST = settings.BRIDGE_COMMS

@@ -44,11 +44,18 @@ def main():
     # mail stuff
     if send=="y":
         BCC = ["bridge@carthage.edu",]
-        TO_LIST = ["faculty-staff@lists.carthage.edu","student@lists.carthage.edu",]
+        TO_LIST = [
+            "faculty-staff@lists.carthage.edu",
+            "student@lists.carthage.edu"
+        ]
     else:
         BCC = settings.MANAGERS
         #TO_LIST = ["larry@carthage.edu",]
-        TO_LIST = ["eyoung@carthage.edu","tapplegarth@carthage.edu",]
+        TO_LIST = [
+            "bbeyer@carthage.edu",
+            "eyoung@carthage.edu",
+            "tapplegarth@carthage.edu"
+        ]
     FROM = "Carthage Bridge <bridge@carthage.edu>"
     settings.DEFAULT_CHARSET = 'utf-8'
     settings.FILE_CHARSET = 'utf-8'

@@ -21,7 +21,7 @@ CATEGORIES = (
     ('477','Kudos'),
     ('501','Faculty & Staff News'),
     ('502','Student News'),
-    ('504','Technology'),
+    ('504','Library & Technology'),
 )
 
 SLUGS = {
@@ -41,8 +41,8 @@ TAGS = {
     477:['Kudos',[]],
     501:['Faculty & Staff News',[]],
     502:['Student News',[]],
-    504:['Technology',[]],
-    544:['Top News Story',[]]
+    504:['Library & Technology',[]],
+    912:['Top Bridge Stories',[]]
 }
 
 BRIDGE_URL = settings.BRIDGE_URL
@@ -340,7 +340,7 @@ class LivewhaleEvents(models.Model):
                 u.email, u.first_name,
                 u.last_name
             )
-            if in_group(u, "Staff", "Faculty"):
+            if in_group(u, "carthageStaffStatus", "carthageFacultyStatus"):
                 self.status = 1
             else: # student
                 self.status = 0
@@ -808,7 +808,7 @@ class LivewhaleNews(models.Model):
             #self.date_dt = timezone.now()
             self.date_dt = datetime.datetime.combine(datetime.date.today(),datetime.time())
             self.date    = self.date_dt.strftime("%m/%d/%Y")
-            if in_group(u, "Staff", "Faculty"):
+            if in_group(u, "carthageStaffStatus", "carthageFacultyStatus"):
                 self.status = 1
             else: # student
                 self.status = 0
