@@ -60,9 +60,11 @@ def get_tag(sid,jid):
             return tid
         tag  = LivewhaleTags.objects.using('livewhale').get(id=tid)
         slug = SLUGS[tid]
-        return '<a href="http://%s%s%s/">%s</a>' % (SERVER_URL,BRIDGE_URL,slug,tag)
+        return '<a href="http://{}{}{}/">{}</a>'.format(
+            SERVER_URL,BRIDGE_URL,slug,tag
+        )
     except Exception, e:
-        #obj = str('<strong>%s</strong>' % e)
+        #obj = str('<strong>{}</strong>'.format(e))
         return ""
 
 class LivewhaleCourseCatalog(models.Model):
@@ -158,7 +160,7 @@ class LivewhaleEvents(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "http://www.carthage.edu/live/events/%s/" % self.id
+        return "https://www.carthage.edu/live/events/{}/".format(self.id)
 
     def tag(self, jid=None):
         return get_tag(self.id,jid)
@@ -193,11 +195,12 @@ class LivewhaleEvents(models.Model):
                 self.date2_dt = datetime.datetime.combine(data['end_date'],data['end_time'])
             else:
                 self.date2_dt = data['end_date']
+
             # set contact info from request.user
-            self.contact_info = '<p>By:&nbsp;<a href="mailto:%s">%s %s</a></p>' % (
-                u.email, u.first_name,
-                u.last_name
-            )
+            self.contact_info = '''
+                <p>By:&nbsp;<a href="mailto:{}">{} {}</a></p>
+            '''.format(u.email, u.first_name, u.last_name)
+
             if in_group(u, "carthageStaffStatus", "carthageFacultyStatus"):
                 self.status = 1
             else: # student
@@ -214,8 +217,8 @@ class LivewhaleEvents(models.Model):
                 INSERT INTO livewhale_tags2any
                     (id1, id2, type)
                 VALUES
-                    (%s, %s, 'events')
-            """ % (data["category"],self.id)
+                    ({}, {}, 'events')
+            """.format(data["category"],self.id)
             #cursor = connection.cursor()
             #cursor.execute(sql)
             mysql_db(sql,db="livewhale")
@@ -224,8 +227,8 @@ class LivewhaleEvents(models.Model):
                 INSERT INTO livewhale_events_categories2any
                     (id1, id2, type)
                 VALUES
-                    (%s, %s, 'events')
-            """ % (30,self.id)
+                    ({}, {}, 'events')
+            """.format(30,self.id)
             #cursor.execute(sql)
             mysql_db(sql,db="livewhale")
 
@@ -356,16 +359,14 @@ class LivewhaleNews(models.Model):
     #summary = SanitizedTextField(blank=True, strip=True)
     summary = models.TextField(blank=True)
     status = models.IntegerField(default=1)
-    date = models.CharField(max_length=255)
-    date_dt = models.DateTimeField()
+    date = models.CharField(max_length=255,default="")
+    date_dt = models.DateTimeField(auto_now_add=True)
     #body = SanitizedTextField(blank=True, allowed_tags=SANI_TAGS, allowed_attributes=['href', 'src'], strip=True)
     body = models.TextField(blank=True)
     contact_info = models.CharField(max_length=1000, blank=True)
     rank = models.IntegerField(default=0)
-    #date_created = models.DateTimeField(auto_now_add=True)
-    #last_modified = models.DateTimeField(auto_now=True)
-    date_created = models.DateTimeField()
-    last_modified = models.DateTimeField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
     last_user = models.IntegerField(default=settings.BRIDGE_USER)
     created_by = models.IntegerField(null=True, blank=True, default=settings.BRIDGE_USER)
     url = models.CharField(max_length=1500, blank=True)
@@ -387,7 +388,7 @@ class LivewhaleNews(models.Model):
         return self.headline
 
     def get_absolute_url(self):
-        return "http://www.carthage.edu/live/news/%s/" % self.id
+        return "https://www.carthage.edu/live/news/{}/".format(self.id)
 
     def tag(self, jid=None):
         return get_tag(self.id,jid)
@@ -445,7 +446,7 @@ class LivewhaleNews(models.Model):
 
         """
         We have to resort to MySQLdb because:
-            a) livewhale's database is fucked up
+            a) livewhale uses UTC for events but not for news
             b) Django does not support composite Foreign Keys
         """
         if data:
@@ -456,14 +457,14 @@ class LivewhaleNews(models.Model):
                 INSERT INTO livewhale_tags2any
                     (id1, id2, type)
                 VALUES
-                    (%s, %s, 'news')
-            """ % (data["category"],self.id)
+                    ({}, {}, 'news')
+            """.format(data["category"],self.id)
             #cursor.execute(sql)
             mysql_db(sql,db="livewhale")
 
             # set dates outside of django timezone aware ecosystem
             # since livewhale does not use UTC for news items
-            if not self.date and not self.date_dt and not self.date_created:
+            if not self.views:
                 date = NOW.strftime("%m/%d/%Y")
                 date_dt = datetime.datetime.combine(
                     TODAY, datetime.time()
@@ -472,10 +473,11 @@ class LivewhaleNews(models.Model):
                     UPDATE
                         livewhale_news
                     SET
-                        date = {},
-                        date_dt = {},
-                        date_created = {},
-                        last_modified = {}
+                        views = 1,
+                        date = "{}",
+                        date_dt = "{}",
+                        date_created = "{}",
+                        last_modified = "{}"
                     WHERE
                         id = {}
                 """.format(date, date_dt, NOW, NOW, self.id)
@@ -484,7 +486,7 @@ class LivewhaleNews(models.Model):
                     UPDATE
                         livewhale_news
                     SET
-                        last_modified = {}
+                        last_modified = "{}"
                     WHERE
                         id = {}
                 """.format(NOW, self.id)
