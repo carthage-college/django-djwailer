@@ -8,17 +8,17 @@ from django.contrib.auth.decorators import login_required
 
 from djwailer.bridge.forms import EventSubmissionForm, NewsSubmissionForm
 from djwailer.bridge.forms import NewsletterForm
-from djwailer.core.models import LivewhaleEvents2Any, TAGS
+from djwailer.core.models import LivewhaleEvents2Any
 from djwailer.core.models import LivewhaleEventsCategories2Any
 from djwailer.core.models import LivewhaleNews as News
 from djwailer.core.models import LivewhaleEvents as Events
 from djtools.utils.mail import send_mail
 from djtools.utils.users import in_group
 from djtools.decorators.auth import superuser_only
+from djtools.fields import NOW
 
 import os
 import datetime
-
 
 @login_required
 def submission_form(request, content_type, oid=None):
@@ -95,7 +95,19 @@ def fetch_newsletter(days=None):
     3 Wednesday's email includes everything posted on and since Monday.
     5 Friday's email includes everything posted on and since Wednesday.
     """
-    NOW = datetime.date.today()
+
+    TAGS = {
+        498:['News & Notices',[]],
+        499:['Lectures & Presentations',[]],
+        500:['Arts & Performances',[]],
+        477:['Kudos',[]],
+        501:['Faculty & Staff News',[]],
+        502:['Student News',[]],
+        504:['Library & Technology',[]],
+        912:['Top Bridge Stories',[]]
+    }
+
+    news = None
     # todays numeric value
     day = NOW.strftime("%w")
     # default number of days within which to fetch stories
@@ -120,6 +132,7 @@ def fetch_newsletter(days=None):
 
 @superuser_only
 def email_test(request):
+    data = None
     if request.GET.get("days"):
         days=int(request.GET.get("days"))
     else:

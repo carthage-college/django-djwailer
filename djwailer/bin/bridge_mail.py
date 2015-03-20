@@ -11,12 +11,11 @@ sys.path.append('/data2/django_third/')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djwailer.settings")
 
 from django.conf import settings
-from django.db.models import Q
 
-from djwailer.core.models import LivewhaleEvents, LivewhaleNews, tags_list, TAGS
-from djwailer.bridge.views import fetch_newsletter, NOW
+from djwailer.bridge.views import fetch_newsletter
 
 from djtools.utils.mail import send_mail
+from djtools.fields import NOW
 
 from optparse import OptionParser
 
@@ -50,7 +49,6 @@ def main():
         ]
     else:
         BCC = settings.MANAGERS
-        #TO_LIST = ["larry@carthage.edu",]
         TO_LIST = [
             "bbeyer@carthage.edu",
             "eyoung@carthage.edu",
