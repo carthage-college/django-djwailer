@@ -35,17 +35,6 @@ SLUGS = {
     504:'technology'
 }
 
-TAGS = {
-    498:['News & Notices',[]],
-    499:['Lectures & Presentations',[]],
-    500:['Arts & Performances',[]],
-    477:['Kudos',[]],
-    501:['Faculty & Staff News',[]],
-    502:['Student News',[]],
-    504:['Library & Technology',[]],
-    912:['Top Bridge Stories',[]]
-}
-
 BRIDGE_URL = settings.BRIDGE_URL
 SERVER_URL = settings.SERVER_URL
 
