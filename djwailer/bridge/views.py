@@ -19,8 +19,6 @@ from djtools.decorators.auth import superuser_only
 import os
 import datetime
 
-BCC = settings.MANAGERS
-NOW = datetime.date.today()
 
 @login_required
 def submission_form(request, content_type, oid=None):
@@ -57,6 +55,7 @@ def submission_form(request, content_type, oid=None):
                 TO_LIST = settings.BRIDGE_COMMS
 
             data.user = usr
+            BCC = settings.MANAGERS
             send_mail(
                 request, TO_LIST, subject, usr.email,
                 "bridge/%s/email.html" % content_type, data, BCC
@@ -96,6 +95,7 @@ def fetch_newsletter(days=None):
     3 Wednesday's email includes everything posted on and since Monday.
     5 Friday's email includes everything posted on and since Wednesday.
     """
+    NOW = datetime.date.today()
     # todays numeric value
     day = NOW.strftime("%w")
     # default number of days within which to fetch stories
