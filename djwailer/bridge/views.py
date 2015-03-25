@@ -53,6 +53,7 @@ def submission_form(request, content_type, oid=None):
                 TO_LIST = settings.BRIDGE_STUDENT
             else:
                 TO_LIST = settings.BRIDGE_COMMS
+                TO_LIST.append(usr.email)
 
             data.user = usr
             BCC = settings.MANAGERS
