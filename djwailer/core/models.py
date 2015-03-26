@@ -7,7 +7,6 @@ from django.utils.encoding import smart_text, force_text
 
 from djtools.utils.database import mysql_db
 from djtools.utils.users import in_group
-from djtools.fields import NOW, TODAY
 #from djtools.templatetags.text_mungers import convert_smart_quotes
 
 from sanitizer.models import SanitizedCharField, SanitizedTextField
@@ -394,6 +393,8 @@ class LivewhaleNews(models.Model):
         return get_tag(self.id,jid)
 
     def save(self, data=None, *args, **kwargs):
+        NOW  = datetime.datetime.now()
+        TODAY = datetime.date.today()
         #import re
         #self.headline = convert_smart_quotes(self.headline)
         #self.summary = convert_smart_quotes(self.summary)
