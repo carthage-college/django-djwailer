@@ -167,8 +167,6 @@ BRIDGE_GROUP = 94
 BRIDGE_TOP_STORY_TAG='544'
 BRIDGE_STUDENT = []
 BRIDGE_COMMS = []
-BRIDTE_STAFF_LIST_TEST = []
-BRIDGE_STAFF_LIST = []
 # logging
 LOG_FILEPATH = os.path.join(os.path.dirname(__file__), "logs/")
 LOG_FILENAME = LOG_FILEPATH + "debug.log"
