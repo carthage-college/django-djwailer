@@ -1,12 +1,20 @@
 <h1>Event Submission</h1>
-<pre style="font-size:1.5em;">
-First name.................. {{data.user.first_name}}
-Last name................... {{data.user.last_name}}
-Email....................... {{data.user.email}}
-Title....................... {{data.title}}
-</pre>
+<p>
+    By:
+    <a href="mailto:{{data.user.email}}">
+        {{data.user.first_name}} {{data.user.last_name}}
+    </a>
+</p>
 <h4>Summary</h4>
-<div style="width:600px;font-size:1.2em;">{{data.summary|safe}}</div>
+<div style="width:600px;font-size:1.5em;">{{data.summary|safe}}</div>
 <h4>Description</h4>
-<div style="width:600px;font-size:1.2em;">{{data.description|safe}}</div>
-<p><a href="{{data.get_absolute_url}}">View this event</a></p>
+<div style="width:600px;font-size:1.5em;">{{data.description|safe}}</div>
+<hr>
+<p>
+    Thank you for your submission.<br>
+    <a href="{{data.get_absolute_url}}">View your event on The Bridge</a>.
+</p>
+<p style="width:600px;font-size:.9em;">
+    NOTE: The Communications Office may edit the content for
+    spelling, grammar, and adherence to the Carthage style guide.
+</p>

@@ -1,43 +1,37 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
-from django.template import RequestContext, loader
+from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render_to_response, get_object_or_404
 
 from djwailer.bridge.forms import EventSubmissionForm, NewsSubmissionForm
-from djwailer.bridge.forms import NewsletterForm
-from djwailer.core.models import LivewhaleEvents2Any
-from djwailer.core.models import LivewhaleEventsCategories2Any
 from djwailer.core.models import LivewhaleNews as News
-from djwailer.core.models import LivewhaleEvents as Events
 from djtools.utils.mail import send_mail
 from djtools.utils.users import in_group
-from djtools.decorators.auth import superuser_only
-from djtools.fields import NOW
 
 import os
-import datetime
 
 @login_required
 def submission_form(request, content_type, oid=None):
+    ct = content_type.capitalize()
+    obj = None
+    # fetch an object or 404
+    if oid and request.user.is_superuser: # open up to author at some point
+        mod = eval( ct )
+        obj = get_object_or_404( mod.objects.using("livewhale"), id=oid )
+
     # try/catch works as 404 detector
     # and GET initialization for forms
     try:
-        form = eval(content_type.capitalize() + "SubmissionForm")()
+        form = eval(ct + "SubmissionForm")(instance=obj)
         email_template = "bridge/%s/email.html" % content_type
         os.stat(os.path.join(settings.ROOT_DIR, "templates", email_template))
     except:
         raise Http404
 
-    if oid and request.user.is_superuser:
-        obj = eval(
-            content_type.capitalize()
-        ).objects.using("livewhale").get(pk=oid)
-
     if request.POST:
-        form = eval(content_type.capitalize() + "SubmissionForm")(request.POST)
+        form = eval(ct + "SubmissionForm")(request.POST)
         if form.is_valid():
             usr = request.user
             cd = form.cleaned_data
@@ -45,11 +39,11 @@ def submission_form(request, content_type, oid=None):
             cd["user"] = usr
             data.save(using='livewhale', data=cd)
             subject = "[The Bridge] %s: submitted by %s %s" % (
-                content_type.capitalize(), usr.first_name,
+                ct, usr.first_name,
                 usr.last_name
             )
             # recipients
-            if not in_group(usr, "carthageStaffStatus", "carthageFacultyStatus"):
+            if not in_group(usr,"carthageStaffStatus","carthageFacultyStatus"):
                 TO_LIST = settings.BRIDGE_STUDENT
             else:
                 TO_LIST = settings.BRIDGE_COMMS
@@ -89,69 +83,4 @@ def unicode_test(request,oid):
         {"funky":funky,},
         context_instance=RequestContext(request)
     )
-
-def fetch_newsletter(days=None):
-    """
-    1 Monday's Bridge email includes everything posted on and since Friday.
-    3 Wednesday's email includes everything posted on and since Monday.
-    5 Friday's email includes everything posted on and since Wednesday.
-    """
-
-    TAGS = {
-        498:['News & Notices',[]],
-        499:['Lectures & Presentations',[]],
-        500:['Arts & Performances',[]],
-        477:['Kudos',[]],
-        501:['Faculty & Staff News',[]],
-        502:['Student News',[]],
-        504:['Library & Technology',[]],
-        912:['Top Bridge Stories',[]]
-    }
-
-    news = None
-    # todays numeric value
-    day = NOW.strftime("%w")
-    # default number of days within which to fetch stories
-    # is 4, unless wed or fri or we pass a value to this method
-    if not days:
-        if day == '3' or day == '5':
-            days = 3
-        else:
-            days = 4
-
-    past = NOW - datetime.timedelta(days=days)
-    # fetch the news
-    news = News.objects.using('livewhale').filter(gid=settings.BRIDGE_GROUP).filter(status=1).filter(date_dt__lte=NOW).filter(is_archived__isnull=True).exclude(date_dt__lte=past)
-    for n in news:
-        tid = n.tag(jid=True)
-        if tid:
-            TAGS[tid][1].append(n)
-    news = []
-    for t in TAGS:
-        news.append(TAGS[t])
-    return {'news':news}
-
-@superuser_only
-def email_test(request):
-    data = None
-    if request.GET.get("days"):
-        days=int(request.GET.get("days"))
-    else:
-        days = None
-    data = fetch_newsletter(days=days)
-    form = NewsletterForm()
-    if request.POST:
-        form = NewsletterForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            arg = "n"
-            if cd["send_to"] == "True":
-                arg = "y"
-            # ok, don't even ask about this #chaputza. bloody livewhale.
-            os.system("/usr/bin/python %s/bin/bridge_mail.py -s %s" % (settings.ROOT_DIR, arg))
-            return HttpResponseRedirect(reverse('email_test'))
-    t = loader.get_template('bridge/newsletter.html')
-    c = RequestContext(request, {'data': data,'form':form,})
-    return HttpResponse(t.render(c),
-        content_type="text/html; charset=utf8")
 

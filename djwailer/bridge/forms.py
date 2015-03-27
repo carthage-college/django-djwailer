@@ -84,9 +84,3 @@ class NewsSubmissionForm(forms.ModelForm):
         model = LivewhaleNews
         fields = ('headline','body','summary')
 
-class NewsletterForm(forms.Form):
-    send_to = forms.CharField(
-        label="Send to",
-        widget=forms.Select(choices=SEND_TO, attrs=REQ)
-    )
-

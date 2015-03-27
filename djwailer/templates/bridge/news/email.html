@@ -1,12 +1,21 @@
 <h1>News Submission</h1>
-<pre style="font-size:1.5em;">
-First name.................. {{data.user.first_name}}
-Last name................... {{data.user.last_name}}
-Email....................... {{data.user.email}}
-Headline.................... {{data.headline}}
-</pre>
+<h3>{{data.headline}}</h3>
+<p>
+    By:
+    <a href="mailto:{{data.user.email}}">
+        {{data.user.first_name}} {{data.user.last_name}}
+    </a>
+</p>
 <h4>Summary</h4>
 <div style="width:600px;font-size:1.5em;">{{data.summary|safe}}</div>
 <h4>Content</h4>
 <div style="width:600px;font-size:1.5em;">{{data.body|safe}}</div>
-<p><a href="{{data.get_absolute_url}}">View news item</a></p>
+<hr>
+<p>
+    Thank you for your submission.<br>
+    <a href="{{data.get_absolute_url}}">View your event on The Bridge</a>.
+</p>
+<p style="width:600px;font-size:.9em;">
+    NOTE: The Communications Office may edit the content for
+    spelling, grammar, and adherence to the Carthage style guide.
+</p>

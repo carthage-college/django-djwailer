@@ -6,9 +6,6 @@ urlpatterns = patterns('djwailer.bridge.views',
         r'^$', RedirectView.as_view(url="/bridge/")
     ),
     url(
-        r'^email/$', 'email_test', name='email_test'
-    ),
-    url(
         r'^unicode/(?P<oid>\d+)/$',
         'unicode_test', name='unicode_test'
     ),

@@ -165,8 +165,10 @@ BRIDGE_CATEGORY=30
 BRIDGE_USER=7
 BRIDGE_GROUP = 94
 BRIDGE_TOP_STORY_TAG='544'
-BRIDGE_STUDENT = ["kbrooks3@carthage.edu","bridge@carthage.edu"]
-BRIDGE_COMMS = ["bridge@carthage.edu",]
+BRIDGE_STUDENT = []
+BRIDGE_COMMS = []
+BRIDTE_STAFF_LIST_TEST = []
+BRIDGE_STAFF_LIST = []
 # logging
 LOG_FILEPATH = os.path.join(os.path.dirname(__file__), "logs/")
 LOG_FILENAME = LOG_FILEPATH + "debug.log"
@@ -210,7 +212,7 @@ LOGGING = {
         }
     },
     'loggers': {
-        'mugshots.upload': {
+        'djwailer': {
             'handlers':['logfile'],
             'propagate': True,
             'level':'DEBUG',

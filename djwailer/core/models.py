@@ -7,7 +7,6 @@ from django.utils.encoding import smart_text, force_text
 
 from djtools.utils.database import mysql_db
 from djtools.utils.users import in_group
-#from djtools.templatetags.text_mungers import convert_smart_quotes
 
 from sanitizer.models import SanitizedCharField, SanitizedTextField
 
@@ -393,45 +392,22 @@ class LivewhaleNews(models.Model):
         return get_tag(self.id,jid)
 
     def save(self, data=None, *args, **kwargs):
-        NOW  = datetime.datetime.now()
-        TODAY = datetime.date.today()
-        #import re
-        #self.headline = convert_smart_quotes(self.headline)
-        #self.summary = convert_smart_quotes(self.summary)
-        #self.body = convert_smart_quotes(self.body)
-        #self.headline.encode('latin1')
-        #self.summary.encode('latin1')
-        #self.body.encode('latin1')
-        #self.headline = self.headline.encode('latin1').replace('“','"').replace('”','"')
-        #self.summary = self.summary.encode('latin1').replace('“','"').replace('”','"')
-        #self.body = self.body.encode('latin1').replace('“','"').replace('”','"')
         #self.headline = self.headline.encode('latin1')
         #self.summary = self.summary.encode('latin1')
         #self.body = self.body.encode('latin1')
-        #h = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','"',self.headline.encode('utf-8'))
-        #s = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','"',self.summary.encode('utf-8'))
-        #b = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','"',self.body.encode('utf-8'))
-        #h = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','&quot;',self.headline.encode('utf-8'))
-        #s = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','&quot;',self.summary.encode('utf-8'))
-        #b = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','&quot;',self.body.encode('utf-8'))
-        #self.headline = h
-        #self.summary = s
-        #self.body = b
-        #self.headline = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','"', h)
-        #self.summary =  re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','"', s)
-        #self.body = re.sub(u'[\u00ab\u00bb\u201c\u201d\u201e\u201f\u300e\u300f]','"', b)
-        #self.headline = self.headline.replace(u'“','"').replace(u'”','"')
-        #self.summary = self.summary.replace(u'“','"').replace(u'”','"')
-        #self.body = self.body.replace(u'“','"').replace(u'”','"')
-        #self.headline = h.replace(u'“','"').replace(u'”','"')
-        #self.summary = s.replace(u'“','"').replace(u'”','"')
-        #self.body = b.replace(u'“','"').replace(u'”','"')
-        #headline = self.headline
-        #summary = self.summary
-        #body = self.body
-        #self.headline = " "
-        #self.summary = " "
-        #self.body = " "
+        #self.headline = self.headline.decode('utf8')
+        #self.summary = self.summary.decode('utf8')
+        #self.body = self.body.decode('utf8')
+        self.headline = self.headline.encode('utf8')
+        self.summary = self.summary.encode('utf8')
+        self.body = self.body.encode('utf8')
+        #self.headline = self.headline.decode('cp1252')
+        #self.summary = self.summary.decode('cp1252')
+        #self.body = self.body.decode('cp1252')
+
+        # dates
+        NOW  = datetime.datetime.now()
+        TODAY = datetime.date.today()
         # set contact info from request.user
         if data:
             u = data["user"]
