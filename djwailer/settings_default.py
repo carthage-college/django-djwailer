@@ -76,7 +76,6 @@ INSTALLED_APPS = (
     'djwailer.core',
     'djwailer.bridge',
     'djtools',
-    'sanitizer',
 )
 
 MIDDLEWARE_CLASSES = (

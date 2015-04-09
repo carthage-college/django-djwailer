@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db import models, connection
-from django.utils.timezone import utc
-from django.utils.html import escape
-from django.utils.encoding import smart_text, force_text
+from django.utils.html import strip_tags
+from django.template.defaultfilters import removetags
 
 from djtools.utils.database import mysql_db
 from djtools.utils.users import in_group
-
-from sanitizer.models import SanitizedCharField, SanitizedTextField
 
 import datetime
 
@@ -53,7 +50,9 @@ def tags_list():
 
 def get_tag(sid,jid):
     try:
-        tid  = LivewhaleTags2Any.objects.using('livewhale').filter(id2=sid).filter(id1__in=tags_list())[0].id1
+        tid  = LivewhaleTags2Any.objects.using(
+            'livewhale'
+        ).filter(id2=sid).filter(id1__in=tags_list())[0].id1
         if jid:
             return tid
         tag  = LivewhaleTags.objects.using('livewhale').get(id=tid)
@@ -96,7 +95,6 @@ class LivewhaleEvents(models.Model):
     suggested = models.CharField(max_length=500, blank=True)
     parent = models.IntegerField(null=True, blank=True)
     eid = models.CharField(max_length=255, blank=True, default="")
-    #title = SanitizedCharField(max_length=765, strip=True)
     title = models.CharField(max_length=255)
     date_dt = models.DateTimeField(null=True, blank=True)
     date2_dt = models.DateTimeField(null=True, blank=True)
@@ -111,9 +109,7 @@ class LivewhaleEvents(models.Model):
     repeats_by = models.IntegerField(null=True, blank=True)
     repeats_on = models.CharField(max_length=15, blank=True)
     repeats_occurrences = models.IntegerField(null=True, blank=True)
-    #summary = SanitizedTextField(blank=True, strip=True)
     summary = models.TextField(blank=True)
-    #description = SanitizedTextField(blank=True, allowed_tags=SANI_TAGS, allowed_attributes=['href', 'src'], strip=True)
     description = models.TextField(blank=True)
     url = models.CharField(max_length=500, blank=True)
     source = models.CharField(max_length=255, blank=True)
@@ -122,7 +118,9 @@ class LivewhaleEvents(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     last_user = models.IntegerField(default=settings.BRIDGE_USER)
-    created_by = models.IntegerField(null=True, blank=True, default=settings.BRIDGE_USER)
+    created_by = models.IntegerField(
+        null=True, blank=True, default=settings.BRIDGE_USER
+    )
     lookup = models.CharField(max_length=255, blank=True)
     gallery_id = models.IntegerField(null=True, blank=True)
     has_registration = models.IntegerField(null=True, blank=True)
@@ -134,7 +132,9 @@ class LivewhaleEvents(models.Model):
     registration_instructions = models.CharField(max_length=500, blank=True)
     registration_response = models.CharField(max_length=2000, blank=True)
     has_registration_notifications = models.IntegerField(null=True, blank=True)
-    registration_notifications_email = models.CharField(max_length=255, blank=True)
+    registration_notifications_email = models.CharField(
+        max_length=255, blank=True
+    )
     registration_restrict = models.TextField(blank=True)
     registration_owner_email = models.CharField(max_length=255, blank=True)
     has_wait_list = models.IntegerField(null=True, blank=True)
@@ -164,24 +164,9 @@ class LivewhaleEvents(models.Model):
         return get_tag(self.id,jid)
 
     def save(self, data=None, *args, **kwargs):
-        self.title.encode('latin1')
-        self.summary.encode('latin1')
-        self.description.encode('latin1')
-        #self.title.encode('utf8')
-        #self.summary.encode('utf8')
-        #self.description.encode('utf8')
-        #self.title = force_text(self.title.encode('latin1'))
-        #self.summary = force_text(self.summary.encode('latin1'))
-        #self.description = force_text(self.description.encode('latin1'))
-        #self.title = force_text(self.title.encode('utf8'))
-        #self.summary = force_text(self.summary.encode('utf8'))
-        #self.description = force_text(self.description.encode('utf8'))
-        #self.title = force_text(self.title)
-        #self.summary = force_text(self.summary)
-        #self.description = force_text(self.description)
-        #self.title = smart_text(self.title)
-        #self.summary = smart_text(self.summary)
-        #self.description = smart_text(self.description)
+        self.title = removetags(self.title, 'style').encode('utf8')
+        self.summary = removetags(self.summary, 'style').encode('utf8')
+        self.description = self.description.encode('utf8')
         if data:
             u = data["user"]
             # date munging
@@ -352,14 +337,11 @@ class LivewhaleNews(models.Model):
     gid = models.IntegerField(default=settings.BRIDGE_GROUP)
     suggested = models.CharField(max_length=1500, blank=True, default=None)
     parent = models.IntegerField(null=True, blank=True)
-    #headline = SanitizedCharField(max_length=765, strip=True)
     headline = models.CharField(max_length=255)
-    #summary = SanitizedTextField(blank=True, strip=True)
     summary = models.TextField(blank=True)
     status = models.IntegerField(default=1)
     date = models.CharField(max_length=255,default="")
     date_dt = models.DateTimeField(auto_now_add=True)
-    #body = SanitizedTextField(blank=True, allowed_tags=SANI_TAGS, allowed_attributes=['href', 'src'], strip=True)
     body = models.TextField(blank=True)
     contact_info = models.CharField(max_length=1000, blank=True)
     rank = models.IntegerField(default=0)
@@ -392,18 +374,9 @@ class LivewhaleNews(models.Model):
         return get_tag(self.id,jid)
 
     def save(self, data=None, *args, **kwargs):
-        #self.headline = self.headline.encode('latin1')
-        #self.summary = self.summary.encode('latin1')
-        #self.body = self.body.encode('latin1')
-        #self.headline = self.headline.decode('utf8')
-        #self.summary = self.summary.decode('utf8')
-        #self.body = self.body.decode('utf8')
-        self.headline = self.headline.encode('utf8')
-        self.summary = self.summary.encode('utf8')
+        self.headline = removetags(self.headline, 'style').encode('utf8')
+        self.summary = removetags(self.summary, 'style').encode('utf8')
         self.body = self.body.encode('utf8')
-        #self.headline = self.headline.decode('cp1252')
-        #self.summary = self.summary.decode('cp1252')
-        #self.body = self.body.decode('cp1252')
 
         # dates
         NOW  = datetime.datetime.now()
