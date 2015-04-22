@@ -18,6 +18,7 @@ CATEGORIES = (
     ('501','Faculty & Staff News'),
     ('502','Student News'),
     ('504','Library & Technology'),
+    ('912','Top Bridge Stories')
 )
 
 SLUGS = {
@@ -27,7 +28,8 @@ SLUGS = {
     477:'kudos',
     501:'faculty-staff-news',
     502:'students/news',
-    504:'technology'
+    504:'technology',
+    912:'top-bridge-stories'
 }
 
 BRIDGE_URL = settings.BRIDGE_URL
@@ -52,7 +54,7 @@ def get_tag(sid,jid):
     try:
         tid  = LivewhaleTags2Any.objects.using(
             'livewhale'
-        ).filter(id2=sid).filter(id1__in=tags_list())[0].id1
+        ).filter(id2=sid).filter(type="news").filter(id1__in=tags_list())[0].id1
         if jid:
             return tid
         tag  = LivewhaleTags.objects.using('livewhale').get(id=tid)
