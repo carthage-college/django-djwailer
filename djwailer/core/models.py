@@ -18,7 +18,6 @@ CATEGORIES = (
     ('501','Faculty & Staff News'),
     ('502','Student News'),
     ('504','Library & Technology'),
-    ('912','Top Bridge Stories')
 )
 
 SLUGS = {
@@ -29,7 +28,6 @@ SLUGS = {
     501:'faculty-staff-news',
     502:'students/news',
     504:'technology',
-    912:'top-bridge-stories'
 }
 
 BRIDGE_URL = settings.BRIDGE_URL
