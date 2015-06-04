@@ -1,5 +1,4 @@
 from django.core import serializers
-from optparse import OptionParser
 
 from djwailer.core.models import LivewhaleCourseCatalog, LivewhaleProfilesFields
 
@@ -12,22 +11,42 @@ Informix in JSON format and imported into MySQL.
 URL structure:
 
 Physics
-http://www.carthage.edu/jenzabar/api/catalog/UG14/PHY/
-http://www.carthage.edu/jenzabar/api/catalog/UG14/
+https://www.carthage.edu/jenzabar/api/catalog/UG14/PHY/
+ALL Undergraduate Courses
+https://www.carthage.edu/jenzabar/api/catalog/UG14/
 All Graduate Courses
-http://www.carthage.edu/jenzabar/api/catalog/GR14/
+https://www.carthage.edu/jenzabar/api/catalog/GR14/
 
-OJO: after importing the UG14 courses, you have to comment out
-the delete portion of the script and then run the GR14 URL.
+OJO:
+
+execute destroy.py to dump the catalog.
+
+after importing the UG* courses, execute:
+
+update livewhale_course_catalog set disc="" where dept="EDU"
+
+then run the GR* URL. then execute:
+
+update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU"
+update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc=""
 """
 
 #set up command-line options
 desc = """
 Takes a URL and grabs JSON data for processing
 """
+import django
+django.setup()
 
-parser = OptionParser(description=desc)
-parser.add_option("-u", "--url", help="url that returns JSON data", dest="earl")
+import argparse
+
+parser = argparse.ArgumentParser(description=desc)
+
+parser.add_argument(
+    "-u", "--url",
+    help="The URL that returns JSON data",
+    dest="earl"
+)
 
 def get_profile_id(email):
     try:
@@ -44,8 +63,6 @@ def main():
     response =  urllib.urlopen(earl)
     data = response.read()
     jsonResponse = serializers.deserialize("json", data)
-    # delete the current catalog of courses
-    LivewhaleCourseCatalog.objects.using('livewhale').all().delete()
     # here we cycle through the objects and make the updates
     # we can without having to save
     for s in jsonResponse:
@@ -104,11 +121,12 @@ def main():
 ######################
 
 if __name__ == "__main__":
-    (options, args) = parser.parse_args()
-    earl = options.earl
+    args = parser.parse_args()
+    earl = args.earl
+
     if not earl:
         print "You must provide a URL\n"
         parser.print_help()
         exit(-1)
-
     sys.exit(main())
+

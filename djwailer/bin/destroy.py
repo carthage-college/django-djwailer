@@ -1,3 +1,5 @@
-from djwailer.catalog.models import CourseCatalog
+from djwailer.core.models import LivewhaleCourseCatalog
 
-CourseCatalog.objects.all().delete()
+# delete the current catalog of courses
+
+LivewhaleCourseCatalog.objects.using('livewhale').all().delete()

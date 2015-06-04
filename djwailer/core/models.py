@@ -451,3 +451,69 @@ class LivewhaleNews2Any(models.Model):
 
     class Meta:
         db_table = u'livewhale_news2any'
+
+class LivewhaleProfiles(models.Model):
+    id = models.IntegerField(primary_key=True)
+    gid = models.IntegerField()
+    tid = models.IntegerField(null=True, blank=True)
+    suggested = models.CharField(max_length=1500, blank=True)
+    parent = models.IntegerField(null=True, blank=True)
+    firstname = models.CharField(max_length=765)
+    middlename = models.CharField(max_length=765, blank=True)
+    lastname = models.CharField(max_length=765)
+    description = models.TextField(blank=True)
+    status = models.IntegerField()
+    date_created = models.DateTimeField()
+    last_modified = models.DateTimeField()
+    last_user = models.IntegerField()
+    created_by = models.IntegerField(null=True, blank=True)
+    is_starred = models.IntegerField(null=True, blank=True)
+    lookup = models.CharField(max_length=765, blank=True)
+    gallery_id = models.IntegerField(null=True, blank=True)
+    is_shared = models.IntegerField(null=True, blank=True)
+    url = models.CharField(max_length=1500, blank=True)
+    source = models.CharField(max_length=765, blank=True)
+    views = models.IntegerField(null=True, blank=True)
+    rank = models.IntegerField(null=True, blank=True)
+    contact_info = models.CharField(max_length=3000, blank=True)
+    username = models.CharField(max_length=765, blank=True)
+    class Meta:
+        db_table = u'livewhale_profiles'
+
+class LivewhaleProfiles2Any(models.Model):
+    id1 = models.IntegerField()
+    id2 = models.IntegerField()
+    type = models.CharField(max_length=765, primary_key=True)
+    position = models.IntegerField()
+    class Meta:
+        db_table = u'livewhale_profiles2any'
+
+class LivewhaleProfilesFields(models.Model):
+    id = models.IntegerField(primary_key=True)
+    pid = models.IntegerField()
+    fid = models.IntegerField()
+    value = models.TextField(blank=True)
+    class Meta:
+        db_table = u'livewhale_profiles_fields'
+
+class LivewhaleProfilesTypes(models.Model):
+    id = models.IntegerField(primary_key=True)
+    gid = models.IntegerField(null=True, blank=True)
+    title = models.CharField(max_length=765)
+    date_created = models.DateTimeField()
+    last_modified = models.DateTimeField()
+    last_user = models.IntegerField()
+    created_by = models.IntegerField(null=True, blank=True)
+    class Meta:
+        db_table = u'livewhale_profiles_types'
+
+class LivewhaleProfilesTypesFields(models.Model):
+    id = models.IntegerField(primary_key=True)
+    pid = models.IntegerField()
+    title = models.CharField(max_length=765)
+    type = models.CharField(max_length=765)
+    position = models.IntegerField()
+    allow_in_linked = models.IntegerField(null=True, blank=True)
+    location = models.CharField(max_length=765, blank=True)
+    class Meta:
+        db_table = u'livewhale_profiles_types_fields'
