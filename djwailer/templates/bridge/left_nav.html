@@ -1,6 +1,5 @@
 {% load livewhale_api %}
 {% get_lw_content as nav blurbs 1816 %}
-<h4>The Bridge</h4>
 {{nav.body}}
 <ul>
     {% if not user.is_anonymous %}
