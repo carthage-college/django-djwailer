@@ -11,21 +11,29 @@ Informix in JSON format and imported into MySQL.
 URL structure:
 
 Physics
-https://www.carthage.edu/jenzabar/api/catalog/UG14/PHY/
+https://www.carthage.edu/jenzabar/api/catalog/UG15/PHY/
 ALL Undergraduate Courses
-https://www.carthage.edu/jenzabar/api/catalog/UG14/
+https://www.carthage.edu/jenzabar/api/catalog/UG15/
 All Graduate Courses
-https://www.carthage.edu/jenzabar/api/catalog/GR14/
+https://www.carthage.edu/jenzabar/api/catalog/GR15/
 
 OJO:
 
 execute destroy.py to dump the catalog.
 
-after importing the UG* courses, execute:
+then, after importing the UG* courses:
+
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG15/
+
+execute the following SQL command:
 
 update livewhale_course_catalog set disc="" where dept="EDU"
 
-then run the GR* URL. then execute:
+then run the GR* URL.
+
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR15/EDU/
+
+then execute:
 
 update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU"
 update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc=""
@@ -63,8 +71,7 @@ def main():
     response =  urllib.urlopen(earl)
     data = response.read()
     jsonResponse = serializers.deserialize("json", data)
-    # here we cycle through the objects and make the updates
-    # we can without having to save
+    # here we cycle through the objects and execute some updates
     for s in jsonResponse:
         if s.object.max_hrs == s.object.min_hrs:
             s.object.credits = int(s.object.max_hrs)
@@ -81,11 +88,10 @@ def main():
         else:
             p = name
         s.object.instructors = p
+        s.object.id = None
         s.save(using="livewhale")
-
     # search for duplicates and concatenate instructors and terms
-    # from duplicates and then remove them
-
+    # from duplicates and then remove them.
     for c in LivewhaleCourseCatalog.objects.using('livewhale').values_list(
             'crs_no', flat=True
         ).distinct():
@@ -99,7 +105,11 @@ def main():
             # we put professors and terms in lists so we can check for
             # duplicates and sort alphabetically
             profis = [course.instructors,]
-            terms = [course.txt,]
+            # oddly, txt is missing from time to time and becomes None
+            # which causes the join on sorted(terms) below to barf
+            terms = []
+            if course.txt and course.txt != "":
+                terms.append(course.txt)
             # skip the 0 index since that is the course we will update
             # while removing the other dupes
             for d in dupes[1:]:
