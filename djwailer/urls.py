@@ -44,6 +44,6 @@ urlpatterns = patterns('',
     ),
     url(
         r'^$',
-        RedirectView.as_view(url="/djwailer/accounts/")
+        RedirectView.as_view(url="/bridge/submit/")
     ),
 )
