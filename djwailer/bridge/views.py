@@ -76,11 +76,19 @@ def submission_form(request, content_type, oid=None):
     )
 
 def submission_success(request, content_type):
-    return render_to_response(
-        "bridge/%s/done.html" % content_type,
-        {"content_type": content_type,},
-        context_instance=RequestContext(request)
-    )
+    # try/catch works as 404 detector
+    # and GET initialization for forms
+    try:
+        template = "bridge/%s/done.html" % content_type
+        os.stat(os.path.join(settings.ROOT_DIR, "templates", template))
+        return render_to_response(
+            template,
+            {"content_type": content_type,},
+            context_instance=RequestContext(request)
+        )
+    except:
+        raise Http404
+
 
 def unicode_test(request,oid):
     funky = News.objects.using('livewhale').get(pk=oid)
