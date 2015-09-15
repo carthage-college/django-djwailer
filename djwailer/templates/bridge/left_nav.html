@@ -4,7 +4,7 @@
 <ul>
     {% if not user.is_anonymous %}
         <li>
-            <a href="{{root_url}}accounts/logout/?next={{request.path}}">Logout</a>
+            <a href="{{root_url}}accounts/logout/?next=/bridge/">Logout</a>
         </li>
     {% else %}
         <li>
