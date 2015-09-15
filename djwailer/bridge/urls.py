@@ -6,19 +6,19 @@ urlpatterns = patterns('djwailer.bridge.views',
         r'^$', RedirectView.as_view(url="/bridge/")
     ),
     url(
-        r'^unicode/(?P<oid>\d+)/$',
+        r'^unicode/(?P<oid>\d+)/',
         'unicode_test', name='unicode_test'
     ),
     url(
-        r'^(?P<content_type>[\d\w]+)/success/$',
+        r'^(?P<content_type>[\d\w]+)/success/',
         'submission_success', name="submission_success"
     ),
     url(
-        r'^(?P<content_type>[\d\w]+)/(?P<oid>\d+)/$',
+        r'^(?P<content_type>[\d\w]+)/(?P<oid>\d+)/',
         'submission_form', name='submission_form'
     ),
     url(
-        r'^(?P<content_type>[\d\w]+)/$',
+        r'^(?P<content_type>[\d\w]+)/',
         'submission_form', name='submission_form'
     ),
 )
