@@ -54,9 +54,13 @@ iframe {width:500px !important;height:300px !important;background: #fff;border: 
 {% block left_nav %}
     {% include "bridge/left_nav.html" %}
 {% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+         Submit an Event
+    </h1>
+{% endblock %}
 {% block sidebar %}{% endblock %}
 {% block content %}
-    <h1>Submit an Event</h1>
     <p>
         Complete the form below to submit your event to the
         Carthage website. Your event will appear on

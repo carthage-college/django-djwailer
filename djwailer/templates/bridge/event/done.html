@@ -1,7 +1,7 @@
 {% extends "bridge/event/form.html" %}
 {% block title %}Submit {{content_type|capfirst}} to the Carthage Bridge{% endblock %}
 {% block content %}
-    <h2>Submit {{content_type|capfirst}}&mdash;Success</h2>
+    <h2>Success</h2>
     <p>
         We have received your {{content_type}} submission.
         <a href="{% url 'submission_form' content_type %}">Submit another</a>?
