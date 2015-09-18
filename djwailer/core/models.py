@@ -402,14 +402,22 @@ class LivewhaleNews(models.Model):
         if data:
             #cursor = connection.cursor()
 
-            # tag it
+            # tag the category
             sql = """
                 INSERT INTO livewhale_tags2any
                     (id1, id2, type)
                 VALUES
                     ({}, {}, 'news')
-            """.format(data["category"],self.id)
+            """.format(data["category"], self.id)
             #cursor.execute(sql)
+            mysql_db(sql,db="livewhale")
+            # tag it "New"
+            sql = """
+                INSERT INTO livewhale_tags2any
+                    (id1, id2, type)
+                VALUES
+                    ({}, {}, 'news')
+            """.format(settings.BRIDGE_NEW_TAG, self.id)
             mysql_db(sql,db="livewhale")
 
             # set dates outside of django timezone aware ecosystem
