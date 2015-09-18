@@ -33,12 +33,6 @@ SLUGS = {
 BRIDGE_URL = settings.BRIDGE_URL
 SERVER_URL = settings.SERVER_URL
 
-SANI_TAGS = [
-    'a','b','blockquote','br','em','hr',
-    'h1','h2','h3','h4','h5','h6',
-    'img','li','ol','p','strong','u','ul'
-]
-
 # move somewhere more appropriate
 def tags_list():
     li = []
@@ -159,9 +153,6 @@ class LivewhaleEvents(models.Model):
 
     def get_absolute_url(self):
         return "https://www.carthage.edu/live/events/{}/".format(self.id)
-
-    def tag(self, jid=None):
-        return get_tag(self.id,jid)
 
     def save(self, data=None, *args, **kwargs):
         self.title = removetags(self.title, 'style').encode('utf8')
