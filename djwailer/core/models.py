@@ -158,6 +158,8 @@ class LivewhaleEvents(models.Model):
         self.title = removetags(self.title, 'style').encode('utf8')
         self.summary = removetags(self.summary, 'style').encode('utf8')
         self.description = self.description.encode('utf8')
+        self.location = removetags(self.location, 'style').encode('utf8')
+
         if data:
             u = data["user"]
             # date munging
