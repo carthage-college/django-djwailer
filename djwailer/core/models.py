@@ -366,6 +366,13 @@ class LivewhaleNews(models.Model):
     def tag(self, jid=None):
         return get_tag(self.id,jid)
 
+    def new(self):
+        return LivewhaleTags2Any.objects.using('livewhale').filter(
+            id2=self.id
+        ).filter(type="news").filter(
+            id1=settings.BRIDGE_NEW_TAG
+        )
+
     def save(self, data=None, *args, **kwargs):
         self.headline = removetags(self.headline, 'style').encode('utf8')
         self.summary = removetags(self.summary, 'style').encode('utf8')
