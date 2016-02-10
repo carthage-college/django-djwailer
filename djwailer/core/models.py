@@ -80,6 +80,7 @@ class LivewhaleCourseCatalog(models.Model):
     email = models.CharField(max_length=384, blank=True)
     instructors = models.CharField(max_length=1536, blank=True)
     core = models.CharField(max_length=12, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = u'livewhale_course_catalog'
