@@ -21,7 +21,7 @@ class LivewhaleCourseCatalogAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         # Tell Django to look for objects on the 'other' database.
-        return super(LivewhaleCourseCatalogAdmin, self).queryset(request).using(self.using)
+        return super(LivewhaleCourseCatalogAdmin, self).get_queryset(request).using(self.using)
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         # Tell Django to populate ForeignKey widgets using a query
