@@ -12,9 +12,6 @@ from djtools.utils.users import in_group
 
 import os
 
-import logging
-logger = logging.getLogger(__name__)
-
 @login_required
 def submission_form(request, content_type, oid=None):
     ct = content_type.capitalize()
@@ -54,7 +51,6 @@ def submission_form(request, content_type, oid=None):
             else:
                 TO_LIST = [settings.BRIDGE_COMMS,usr.email]
 
-            logger.debug("TO_LIST = {}".format(TO_LIST))
             data.user = usr
             BCC = settings.MANAGERS
             send_mail(
