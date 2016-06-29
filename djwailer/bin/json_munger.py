@@ -37,6 +37,10 @@ then execute:
 
 update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU"
 update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc=""
+
+prince command:
+
+/usr/bin/prince https://www.carthage.edu/academics/catalog/print/index.php -o catalog.pdf
 """
 
 #set up command-line options
