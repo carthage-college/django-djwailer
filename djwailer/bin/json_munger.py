@@ -41,6 +41,11 @@ update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc=""
 prince command:
 
 /usr/bin/prince https://www.carthage.edu/academics/catalog/print/index.php -o catalog.pdf
+
+cronjob every five minutes:
+
+# catalog generator
+*/5 * * * * /usr/bin/prince https://www.carthage.edu/academics/catalog/print/ --output=/d2/livewhale/content/academics/catalog/print/catalog.pdf >> /dev/null 2>&1
 """
 
 #set up command-line options
