@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
-{% block left_nav %}
-    {% include "bridge/left_nav.html" %}
-{% endblock %}
 {% block content %}
-<div id="second">
-    <div class="buffer">
-        {{funky.summary}}
-        {{funky.date_dt}}
-    </div>
-</div>
+  {{funky.summary}}
+  {{funky.date_dt}}
 {% endblock %}
