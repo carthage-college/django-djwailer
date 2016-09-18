@@ -5,6 +5,8 @@ from djwailer.core.models import LivewhaleEvents, LivewhaleNews, CATEGORIES
 
 from djtools.fields.time import KungfuTimeField
 
+from htmllaundry import sanitize
+
 if settings.DEBUG:
     REQ = {'class': 'required'}
 else:
@@ -15,6 +17,7 @@ SEND_TO = (
     (False,'[TEST] Communications'),
     (True,'[LIVE] Campus Community'),
 )
+
 
 class EventSubmissionForm(forms.ModelForm):
     title = forms.CharField(
@@ -62,6 +65,10 @@ class EventSubmissionForm(forms.ModelForm):
                 """)
         return end_time
 
+    def clean_description(self):
+        description = sanitize(self.cleaned_data.get('description'))
+        return description
+
 
 class NewsSubmissionForm(forms.ModelForm):
     headline = forms.CharField(max_length=255)
@@ -83,4 +90,12 @@ class NewsSubmissionForm(forms.ModelForm):
     class Meta:
         model = LivewhaleNews
         fields = ('headline','body','summary')
+
+    def clean_body(self):
+        body = sanitize(self.cleaned_data.get('body'))
+        return body
+
+    def clean_summary(self):
+        summary = sanitize(self.cleaned_data.get('summary'))
+        return summary
 
