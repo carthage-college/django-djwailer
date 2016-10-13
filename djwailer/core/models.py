@@ -47,13 +47,12 @@ def get_tag(sid,jid):
         tid  = LivewhaleTags2Any.objects.using(
             'livewhale'
         ).filter(id2=sid).filter(type="news").filter(id1__in=tags_list())[0].id1
-        if jid:
-            return tid
-        tag  = LivewhaleTags.objects.using('livewhale').get(id=tid)
-        slug = SLUGS[tid]
-        return '<a href="http://{}{}{}/">{}</a>'.format(
-            SERVER_URL,BRIDGE_URL,slug,tag
-        )
+        return tid
+        #tag  = LivewhaleTags.objects.using('livewhale').get(id=tid)
+        #slug = SLUGS[tid]
+        #return '<a href="http://{}{}{}/">{}</a>'.format(
+        #    SERVER_URL,BRIDGE_URL,slug,tag
+        #)
     except Exception, e:
         #obj = str('<strong>{}</strong>'.format(e))
         return ""
@@ -116,7 +115,8 @@ class LivewhaleEvents(models.Model):
     created_by = models.IntegerField(
         null=True, blank=True, default=settings.BRIDGE_USER
     )
-    lookup = models.CharField(max_length=255, blank=True)
+    # lw1.6
+    #lookup = models.CharField(max_length=255, blank=True)
     gallery_id = models.IntegerField(null=True, blank=True)
     has_registration = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
@@ -284,7 +284,8 @@ class LivewhaleImages(models.Model):
     created_by = models.IntegerField(null=True, blank=True)
     is_shared = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
-    lookup = models.CharField(max_length=765, blank=True)
+    # lw1.6
+    #lookup = models.CharField(max_length=765, blank=True)
     date = models.CharField(max_length=765)
     date_dt = models.DateTimeField()
 
@@ -348,7 +349,8 @@ class LivewhaleNews(models.Model):
     is_starred = models.IntegerField(null=True, blank=True)
     golive = models.DateTimeField(null=True, blank=True)
     expiration = models.DateTimeField(null=True, blank=True)
-    lookup = models.CharField(max_length=255, blank=True, default=None)
+    # lw1.6
+    #lookup = models.CharField(max_length=255, blank=True, default=None)
     gallery_id = models.IntegerField(null=True, blank=True)
     is_archived = models.CharField(max_length=1, blank=True,default=None)
     has_invalid_url = models.IntegerField(null=True, blank=True)
@@ -366,6 +368,13 @@ class LivewhaleNews(models.Model):
 
     def tag(self, jid=None):
         return get_tag(self.id,jid)
+
+    def image(self):
+        foto = None
+        img =  LivewhaleImages2Any.objects.using('livewhale').filter(id2=self.id).filter(type="news")
+        if img:
+            foto = LivewhaleImages.objects.using('livewhale').get(pk=img[0].id1)
+        return foto
 
     def new(self):
         return LivewhaleTags2Any.objects.using('livewhale').filter(
@@ -477,7 +486,8 @@ class LivewhaleProfiles(models.Model):
     last_user = models.IntegerField()
     created_by = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
-    lookup = models.CharField(max_length=765, blank=True)
+    # lw1.6
+    #lookup = models.CharField(max_length=765, blank=True)
     gallery_id = models.IntegerField(null=True, blank=True)
     is_shared = models.IntegerField(null=True, blank=True)
     url = models.CharField(max_length=1500, blank=True)
