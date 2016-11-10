@@ -87,22 +87,33 @@ MIDDLEWARE_CLASSES = (
 )
 
 # template stuff
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-TEMPLATE_DIRS = (
-    "/data2/django_projects/djwailer/templates/",
-    "/data2/django_templates/djdfir",
-    "/data2/django_templates/djcher",
-)
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "djwailer.context_processors.sitevars",
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.request",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.media",
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            "/data2/django_projects/djwailer/templates/",
+            "/data2/django_templates/djkatara/",
+            "/data2/django_templates/djcher/",
+            "/data2/django_templates/django-djskins/",
+            "/data2/livewhale/includes/",
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug':DEBUG,
+            'context_processors': [
+                "djtools.context_processors.sitevars",
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.contrib.messages.context_processors.messages',
+            ],
+            #'loaders': [
+            #    # insert your TEMPLATE_LOADERS here
+            #]
+        },
+    },
+]
 
 # caching
 CACHES = {
