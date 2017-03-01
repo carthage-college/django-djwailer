@@ -143,7 +143,7 @@ class LivewhaleEvents(models.Model):
     is_shared = models.IntegerField(null=True, blank=True)
     views = models.IntegerField(null=True, blank=True)
     contact_info = models.CharField(max_length=1000, blank=True)
-    subscription_id = models.CharField(max_length=255, blank=True)
+    subscription_id = models.CharField(max_length=255, blank=True, default=None)
     subscription_pid = models.IntegerField(null=True, blank=True)
     # lw15
     is_canceled = models.IntegerField(null=True, blank=True)
