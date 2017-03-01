@@ -42,6 +42,9 @@ urlpatterns = patterns('',
         r'^bridget/',
         TemplateView.as_view(template_name="bridge/maintenance_mode.html")
     ),
+    #url(
+    #   r'^search/', include('haystack.urls')
+    #),
     url(
         r'^$',
         RedirectView.as_view(url="/bridge/submit/")

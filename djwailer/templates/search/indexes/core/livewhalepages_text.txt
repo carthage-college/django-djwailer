@@ -1,0 +1,7 @@
+{{ object.short_title }}
+{{ object.date_created }}
+{{ object.last_modified }}
+{{ object.elements }}
+{{ object.ga_keywords }}
+{{ object.description }}
+{{ object.keywords }}

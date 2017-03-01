@@ -57,9 +57,10 @@ def get_tag(sid,jid):
         #obj = str('<strong>{}</strong>'.format(e))
         return ""
 
+
 class LivewhaleCourseCatalog(models.Model):
     id = models.IntegerField(primary_key=True)
-    title = models.CharField(max_length=765, blank=True)
+    title = models.CharField(max_length=255, blank=True)
     crs_no = models.CharField(max_length=384, blank=True)
     abstr = models.TextField(blank=True)
     cat = models.CharField(max_length=24, blank=True)
@@ -83,6 +84,7 @@ class LivewhaleCourseCatalog(models.Model):
 
     class Meta:
         db_table = u'livewhale_course_catalog'
+
 
 class LivewhaleEvents(models.Model):
     gid = models.IntegerField(default=settings.BRIDGE_GROUP)
@@ -209,39 +211,43 @@ class LivewhaleEvents(models.Model):
             #cursor.execute(sql)
             mysql_db(sql,db="livewhale")
 
+
 class LivewhaleEvents2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
     position = models.IntegerField()
 
     class Meta:
         db_table = u'livewhale_events2any'
 
+
 class LivewhaleEventsCategories(models.Model):
     id = models.IntegerField(primary_key=True)
     gid = models.IntegerField(null=True, blank=True)
-    title = models.CharField(max_length=765)
+    title = models.CharField(max_length=255)
     is_starred = models.IntegerField(null=True, blank=True)
 
     class Meta:
         db_table = u'livewhale_events_categories'
 
+
 class LivewhaleEventsCategories2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
 
     class Meta:
         db_table = u'livewhale_events_categories2any'
 
+
 class LivewhaleEventsRegistrations(models.Model):
     id = models.IntegerField(primary_key=True)
     pid = models.IntegerField()
-    firstname = models.CharField(max_length=765)
-    lastname = models.CharField(max_length=765)
-    email = models.CharField(max_length=765, blank=True)
-    phone = models.CharField(max_length=765, blank=True)
+    firstname = models.CharField(max_length=255)
+    lastname = models.CharField(max_length=255)
+    email = models.CharField(max_length=255, blank=True)
+    phone = models.CharField(max_length=255, blank=True)
     attending = models.IntegerField(null=True, blank=True)
     comments = models.CharField(max_length=1500, blank=True)
     is_cancelled = models.IntegerField(null=True, blank=True)
@@ -250,10 +256,11 @@ class LivewhaleEventsRegistrations(models.Model):
     class Meta:
         db_table = u'livewhale_events_registrations'
 
+
 class LivewhaleEventsSubscriptions(models.Model):
     id = models.IntegerField(primary_key=True)
     gid = models.IntegerField()
-    title = models.CharField(max_length=765)
+    title = models.CharField(max_length=255)
     url = models.CharField(max_length=1500)
     description = models.CharField(max_length=1500, blank=True)
     last_refreshed = models.DateTimeField()
@@ -267,14 +274,15 @@ class LivewhaleEventsSubscriptions(models.Model):
     class Meta:
         db_table = u'livewhale_events_subscriptions'
 
+
 class LivewhaleImages(models.Model):
     id = models.IntegerField(primary_key=True)
     gid = models.IntegerField()
     suggested = models.CharField(max_length=1500, blank=True)
     parent = models.IntegerField(null=True, blank=True)
-    description = models.CharField(max_length=765)
-    filename = models.CharField(max_length=765, blank=True)
-    extension = models.CharField(max_length=765, blank=True)
+    description = models.CharField(max_length=255)
+    filename = models.CharField(max_length=255, blank=True)
+    extension = models.CharField(max_length=255, blank=True)
     keywords = models.CharField(max_length=1500, blank=True)
     credit = models.CharField(max_length=3000, blank=True)
     caption = models.CharField(max_length=3000, blank=True)
@@ -285,12 +293,13 @@ class LivewhaleImages(models.Model):
     is_shared = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
     # lw1.6
-    #lookup = models.CharField(max_length=765, blank=True)
-    date = models.CharField(max_length=765)
+    #lookup = models.CharField(max_length=255, blank=True)
+    date = models.CharField(max_length=255)
     date_dt = models.DateTimeField()
 
     class Meta:
         db_table = u'livewhale_images'
+
 
 class LivewhaleImages2Any(models.Model):
     id1 = models.IntegerField()
@@ -299,19 +308,20 @@ class LivewhaleImages2Any(models.Model):
     is_thumb = models.IntegerField(null=True, blank=True)
     only_thumb = models.IntegerField(null=True, blank=True)
     full_crop = models.IntegerField(null=True, blank=True)
-    full_src_region = models.CharField(max_length=765, blank=True)
+    full_src_region = models.CharField(max_length=255, blank=True)
     thumb_crop = models.IntegerField(null=True, blank=True)
-    thumb_src_region = models.CharField(max_length=765, blank=True)
-    position = models.CharField(max_length=765)
-    type = models.CharField(max_length=765, primary_key=True)
+    thumb_src_region = models.CharField(max_length=255, blank=True)
+    position = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, primary_key=True)
 
     class Meta:
         db_table = u'livewhale_images2any'
 
+
 class LivewhaleTags(models.Model):
     id = models.IntegerField(primary_key=True)
     gid = models.IntegerField(null=True, blank=True)
-    title = models.CharField(max_length=765)
+    title = models.CharField(max_length=255)
     is_starred = models.IntegerField(null=True, blank=True)
 
     class Meta:
@@ -320,13 +330,15 @@ class LivewhaleTags(models.Model):
     def __unicode__(self):
         return self.title
 
+
 class LivewhaleTags2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
 
     class Meta:
         db_table = u'livewhale_tags2any'
+
 
 class LivewhaleNews(models.Model):
     gid = models.IntegerField(default=settings.BRIDGE_GROUP)
@@ -464,11 +476,67 @@ class LivewhaleNews(models.Model):
 class LivewhaleNews2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
     position = models.IntegerField()
 
     class Meta:
         db_table = u'livewhale_news2any'
+
+
+class LivewhalePages(models.Model):
+    #id = models.IntegerField(unique=True)
+    #gids = models.CharField(max_length=3000, blank=True)
+    #uids = models.CharField(max_length=3000, blank=True)
+    path = models.CharField(max_length=255)
+    directory = models.CharField(max_length=255)
+    depth = models.IntegerField()
+    #title = models.CharField(max_length=255, blank=True)
+    short_title = models.CharField(max_length=255, blank=True)
+    date_created = models.DateTimeField()
+    last_modified = models.DateTimeField()
+    last_user = models.IntegerField(null=True, blank=True)
+    #content = models.TextField()
+    elements = models.TextField(blank=True)
+    note = models.CharField(max_length=255, blank=True)
+    is_editing_ts = models.IntegerField(null=True, blank=True)
+    is_editing_user = models.IntegerField(null=True, blank=True)
+    is_template = models.IntegerField(null=True, blank=True)
+    host = models.CharField(max_length=150, primary_key=True)
+    ga_year = models.IntegerField(null=True, blank=True)
+    ga_month = models.IntegerField(null=True, blank=True)
+    ga_week = models.IntegerField(null=True, blank=True)
+    ga_keywords = models.CharField(max_length=1500, blank=True)
+    schedule = models.CharField(max_length=3000, blank=True)
+    schedule_expires = models.DateTimeField(null=True, blank=True)
+    schedule_expires_type = models.IntegerField(null=True, blank=True)
+    schedule_to_type = models.IntegerField(null=True, blank=True)
+    schedule_to_email = models.CharField(max_length=255, blank=True)
+    diff = models.TextField(blank=True)
+    subscriptions = models.TextField(blank=True)
+    subscriptions_date = models.DateTimeField(null=True, blank=True)
+    total_errors = models.IntegerField(null=True, blank=True)
+    is_draft = models.IntegerField(null=True, blank=True)
+    is_draft_closure = models.IntegerField(null=True, blank=True)
+    accessibility_score = models.IntegerField(null=True, blank=True)
+    accessibility_report = models.CharField(max_length=15000, blank=True)
+    tid = models.IntegerField(null=True, blank=True)
+    thash = models.CharField(max_length=96, blank=True)
+    description = models.CharField(max_length=1500, blank=True)
+    keywords = models.CharField(max_length=1500, blank=True)
+    is_deleted = models.IntegerField(null=True, blank=True)
+    has_editable_regions = models.IntegerField(null=True, blank=True)
+    is_details_template = models.IntegerField(null=True, blank=True)
+    is_no_editing = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = u'livewhale_pages'
+
+    def __unicode__(self):
+        return self.short_title.decode('utf-8')
+
+    def get_absolute_url(self):
+        return 'https://www.carthage.edu{}/'.format(self.directory)
+
 
 class LivewhaleProfiles(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -476,9 +544,9 @@ class LivewhaleProfiles(models.Model):
     tid = models.IntegerField(null=True, blank=True)
     suggested = models.CharField(max_length=1500, blank=True)
     parent = models.IntegerField(null=True, blank=True)
-    firstname = models.CharField(max_length=765)
-    middlename = models.CharField(max_length=765, blank=True)
-    lastname = models.CharField(max_length=765)
+    firstname = models.CharField(max_length=255)
+    middlename = models.CharField(max_length=255, blank=True)
+    lastname = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     status = models.IntegerField()
     date_created = models.DateTimeField()
@@ -487,52 +555,61 @@ class LivewhaleProfiles(models.Model):
     created_by = models.IntegerField(null=True, blank=True)
     is_starred = models.IntegerField(null=True, blank=True)
     # lw1.6
-    #lookup = models.CharField(max_length=765, blank=True)
+    #lookup = models.CharField(max_length=255, blank=True)
     gallery_id = models.IntegerField(null=True, blank=True)
     is_shared = models.IntegerField(null=True, blank=True)
     url = models.CharField(max_length=1500, blank=True)
-    source = models.CharField(max_length=765, blank=True)
+    source = models.CharField(max_length=255, blank=True)
     views = models.IntegerField(null=True, blank=True)
     rank = models.IntegerField(null=True, blank=True)
     contact_info = models.CharField(max_length=3000, blank=True)
-    username = models.CharField(max_length=765, blank=True)
+    username = models.CharField(max_length=255, blank=True)
+
     class Meta:
         db_table = u'livewhale_profiles'
+
 
 class LivewhaleProfiles2Any(models.Model):
     id1 = models.IntegerField()
     id2 = models.IntegerField()
-    type = models.CharField(max_length=765, primary_key=True)
+    type = models.CharField(max_length=255, primary_key=True)
     position = models.IntegerField()
+
     class Meta:
         db_table = u'livewhale_profiles2any'
+
 
 class LivewhaleProfilesFields(models.Model):
     id = models.IntegerField(primary_key=True)
     pid = models.IntegerField()
     fid = models.IntegerField()
     value = models.TextField(blank=True)
+
     class Meta:
         db_table = u'livewhale_profiles_fields'
+
 
 class LivewhaleProfilesTypes(models.Model):
     id = models.IntegerField(primary_key=True)
     gid = models.IntegerField(null=True, blank=True)
-    title = models.CharField(max_length=765)
+    title = models.CharField(max_length=255)
     date_created = models.DateTimeField()
     last_modified = models.DateTimeField()
     last_user = models.IntegerField()
     created_by = models.IntegerField(null=True, blank=True)
+
     class Meta:
         db_table = u'livewhale_profiles_types'
+
 
 class LivewhaleProfilesTypesFields(models.Model):
     id = models.IntegerField(primary_key=True)
     pid = models.IntegerField()
-    title = models.CharField(max_length=765)
-    type = models.CharField(max_length=765)
+    title = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
     position = models.IntegerField()
     allow_in_linked = models.IntegerField(null=True, blank=True)
-    location = models.CharField(max_length=765, blank=True)
+    location = models.CharField(max_length=255, blank=True)
+
     class Meta:
         db_table = u'livewhale_profiles_types_fields'
