@@ -2,7 +2,6 @@
 from django.conf import settings
 from django.db import models, connection
 from django.utils.html import strip_tags
-from django.template.defaultfilters import removetags
 
 from djtools.utils.database import mysql_db
 from djtools.utils.users import in_group
@@ -84,6 +83,7 @@ class LivewhaleCourseCatalog(models.Model):
 
     class Meta:
         db_table = u'livewhale_course_catalog'
+        managed=False
 
 
 class LivewhaleEvents(models.Model):
@@ -150,6 +150,7 @@ class LivewhaleEvents(models.Model):
 
     class Meta:
         db_table = u'livewhale_events'
+        managed=False
 
     def __unicode__(self):
         return self.title
@@ -158,10 +159,10 @@ class LivewhaleEvents(models.Model):
         return "https://www.carthage.edu/live/events/{}/".format(self.id)
 
     def save(self, data=None, *args, **kwargs):
-        self.title = removetags(self.title, 'style').encode('utf8')
-        self.summary = removetags(self.summary, 'style').encode('utf8')
+        self.title = strip_tags(self.title).encode('utf8')
+        self.summary = strip_tags(self.summary).encode('utf8')
         self.description = self.description.encode('utf8')
-        self.location = removetags(self.location, 'style').encode('utf8')
+        self.location = strip_tags(self.location).encode('utf8')
 
         if data:
             u = data["user"]
@@ -220,6 +221,7 @@ class LivewhaleEvents2Any(models.Model):
 
     class Meta:
         db_table = u'livewhale_events2any'
+        managed=False
 
 
 class LivewhaleEventsCategories(models.Model):
@@ -230,6 +232,7 @@ class LivewhaleEventsCategories(models.Model):
 
     class Meta:
         db_table = u'livewhale_events_categories'
+        managed=False
 
 
 class LivewhaleEventsCategories2Any(models.Model):
@@ -239,6 +242,7 @@ class LivewhaleEventsCategories2Any(models.Model):
 
     class Meta:
         db_table = u'livewhale_events_categories2any'
+        managed=False
 
 
 class LivewhaleEventsRegistrations(models.Model):
@@ -255,6 +259,7 @@ class LivewhaleEventsRegistrations(models.Model):
 
     class Meta:
         db_table = u'livewhale_events_registrations'
+        managed=False
 
 
 class LivewhaleEventsSubscriptions(models.Model):
@@ -273,6 +278,7 @@ class LivewhaleEventsSubscriptions(models.Model):
 
     class Meta:
         db_table = u'livewhale_events_subscriptions'
+        managed=False
 
 
 class LivewhaleImages(models.Model):
@@ -299,6 +305,7 @@ class LivewhaleImages(models.Model):
 
     class Meta:
         db_table = u'livewhale_images'
+        managed=False
 
 
 class LivewhaleImages2Any(models.Model):
@@ -316,6 +323,7 @@ class LivewhaleImages2Any(models.Model):
 
     class Meta:
         db_table = u'livewhale_images2any'
+        managed=False
 
 
 class LivewhaleTags(models.Model):
@@ -326,6 +334,7 @@ class LivewhaleTags(models.Model):
 
     class Meta:
         db_table = u'livewhale_tags'
+        managed=False
 
     def __unicode__(self):
         return self.title
@@ -338,6 +347,7 @@ class LivewhaleTags2Any(models.Model):
 
     class Meta:
         db_table = u'livewhale_tags2any'
+        managed=False
 
 
 class LivewhaleNews(models.Model):
@@ -371,6 +381,7 @@ class LivewhaleNews(models.Model):
 
     class Meta:
         db_table = u'livewhale_news'
+        managed=False
 
     def __unicode__(self):
         return self.headline
@@ -396,8 +407,8 @@ class LivewhaleNews(models.Model):
         )
 
     def save(self, data=None, *args, **kwargs):
-        self.headline = removetags(self.headline, 'style').encode('utf8')
-        self.summary = removetags(self.summary, 'style').encode('utf8')
+        self.headline = strip_tags(self.headline).encode('utf8')
+        self.summary = strip_tags(self.summary).encode('utf8')
         self.body = self.body.encode('utf8')
 
         # dates
@@ -481,6 +492,7 @@ class LivewhaleNews2Any(models.Model):
 
     class Meta:
         db_table = u'livewhale_news2any'
+        managed=False
 
 
 class LivewhalePages(models.Model):
@@ -530,6 +542,7 @@ class LivewhalePages(models.Model):
 
     class Meta:
         db_table = u'livewhale_pages'
+        managed=False
 
     def __unicode__(self):
         return self.short_title.decode('utf-8')
@@ -567,6 +580,7 @@ class LivewhaleProfiles(models.Model):
 
     class Meta:
         db_table = u'livewhale_profiles'
+        managed=False
 
 
 class LivewhaleProfiles2Any(models.Model):
@@ -577,6 +591,7 @@ class LivewhaleProfiles2Any(models.Model):
 
     class Meta:
         db_table = u'livewhale_profiles2any'
+        managed=False
 
 
 class LivewhaleProfilesFields(models.Model):
@@ -587,6 +602,7 @@ class LivewhaleProfilesFields(models.Model):
 
     class Meta:
         db_table = u'livewhale_profiles_fields'
+        managed=False
 
 
 class LivewhaleProfilesTypes(models.Model):
@@ -600,6 +616,7 @@ class LivewhaleProfilesTypes(models.Model):
 
     class Meta:
         db_table = u'livewhale_profiles_types'
+        managed=False
 
 
 class LivewhaleProfilesTypesFields(models.Model):
@@ -613,3 +630,4 @@ class LivewhaleProfilesTypesFields(models.Model):
 
     class Meta:
         db_table = u'livewhale_profiles_types_fields'
+        managed=False

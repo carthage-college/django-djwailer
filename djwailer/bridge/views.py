@@ -1,9 +1,9 @@
 from django.conf import settings
-from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 
 from djwailer.bridge.forms import EventSubmissionForm, NewsSubmissionForm
 from djwailer.core.models import LivewhaleNews as News
@@ -25,7 +25,7 @@ def submission_form(request, content_type, oid=None):
     # and GET initialization for forms
     try:
         form = eval(ct + "SubmissionForm")(instance=obj)
-        email_template = "bridge/%s/email.html" % content_type
+        email_template = "bridge/{}/email.html".format(content_type)
         os.stat(os.path.join(settings.ROOT_DIR, "templates", email_template))
     except:
         raise Http404
@@ -38,7 +38,7 @@ def submission_form(request, content_type, oid=None):
             data = form.save(commit=False)
             cd["user"] = usr
             data.save(using='livewhale', data=cd)
-            subject = "[The Bridge] %s: submitted by %s %s" % (
+            subject = "[The Bridge] {}: submitted by {} {}".format(
                 ct, usr.first_name,
                 usr.last_name
             )
@@ -55,7 +55,7 @@ def submission_form(request, content_type, oid=None):
             BCC = settings.MANAGERS
             send_mail(
                 request, TO_LIST, subject, usr.email,
-                "bridge/%s/email.html" % content_type, data, BCC
+                'bridge/{}/email.html'.format(content_type), data, BCC
             )
             return HttpResponseRedirect(
                 reverse('submission_success',
@@ -65,22 +65,20 @@ def submission_form(request, content_type, oid=None):
                 )
             )
 
-    return render_to_response(
-        'bridge/%s/form.html' % content_type,
-        {"form": form,},
-        context_instance=RequestContext(request)
+    return render(
+        request, 'bridge/{}/form.html'.format(content_type),
+        {"form": form,}
     )
 
 def submission_success(request, content_type):
     # try/catch works as 404 detector
     # and GET initialization for forms
     try:
-        template = "bridge/%s/done.html" % content_type
+        template = "bridge/{}/done.html".format(content_type)
         os.stat(os.path.join(settings.ROOT_DIR, "templates", template))
-        return render_to_response(
-            template,
-            {"content_type": content_type,},
-            context_instance=RequestContext(request)
+        return render(
+            request, template,
+            {"content_type": content_type,}
         )
     except:
         raise Http404
@@ -88,9 +86,8 @@ def submission_success(request, content_type):
 
 def unicode_test(request,oid):
     funky = News.objects.using('livewhale').get(pk=oid)
-    return render_to_response(
-        "bridge/unicode.html",
-        {"funky":funky,},
-        context_instance=RequestContext(request)
+    return render(
+        request, "bridge/unicode.html",
+        {"funky":funky,}
     )
 

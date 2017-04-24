@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.generic import TemplateView, RedirectView
 
 from djauth.views import loggedout
@@ -10,7 +10,7 @@ admin.autodiscover()
 handler404 = 'djtools.views.errors.four_oh_four_error'
 handler500 = 'djtools.views.errors.server_error'
 
-urlpatterns = patterns('',
+urlpatterns = [
     # auth
     url(
         r'^accounts/login',auth_views.login,
@@ -49,4 +49,4 @@ urlpatterns = patterns('',
         r'^$',
         RedirectView.as_view(url="/bridge/submit/")
     ),
-)
+]
