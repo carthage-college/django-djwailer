@@ -1,10 +1,12 @@
 {% extends "bridge/event/form.html" %}
+{% load livewhale_api %}
 {% block title %}Submit {{content_type|capfirst}} to the Carthage Bridge{% endblock %}
 {% block content %}
-    <h2>Success</h2>
+    <h2>Thank you for your submission to The Bridge</h2>
     <p>
-        We have received your {{content_type}} submission.
         <a href="{% url 'submission_form' content_type %}">Submit another</a>?
     </p>
+    {% get_lw_content as recurring_warning blurbs 2481 %}
+    {{recurring_warning.body}}
 {% endblock %}
 {% block extra_content %}{% endblock %}

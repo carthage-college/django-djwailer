@@ -1,28 +1,12 @@
 {% extends "bridge/news/form.html" %}
+{% load livewhale_api %}
 {% block title %}Submit {{content_type|capfirst}} to the Carthage Bridge{% endblock %}
 {% block content %}
     <h2>Thank you for your submission to The Bridge</h2>
     <p>
         <a href="{% url 'submission_form' content_type %}">Submit another</a>?
     </p>
-    <p>
-        If you are a member of the Carthage faculty or staff,
-        your submitted news article will appear on
-        <a href="http://www.carthage.edu/bridge/">The Bridge</a>
-        in an hour.
-    </p>
-    <p>
-        If you are a Carthage student, your submitted news
-        article will appear on
-        <a href="http://www.carthage.edu/bridge/">The Bridge</a>
-        after it is approved by the Dean of Students Office and
-        the Communications Office.
-    </p>
-    <p>
-        If you have questions about The Bridge, please contact
-        Elizabeth Young in the Communications Office:
-        <a href="mailto:eyoung@carthage.edu">eyoung@carthage.edu,</a>
-        262-551-2145.
-    </p>
+    {% get_lw_content as recurring_warning blurbs 2480 %}
+    {{recurring_warning.body}}
 {% endblock %}
 {% block extra_content %}{% endblock %}
