@@ -1,3 +1,6 @@
+import django
+django.setup()
+
 from django.core import serializers
 
 from djwailer.core.models import LivewhaleCourseCatalog, LivewhaleProfilesFields
@@ -11,11 +14,11 @@ Informix in JSON format and imported into MySQL.
 URL structure:
 
 Physics
-https://www.carthage.edu/jenzabar/api/catalog/UG15/PHY/
+https://www.carthage.edu/jenzabar/api/catalog/UG17/PHY/
 ALL Undergraduate Courses
-https://www.carthage.edu/jenzabar/api/catalog/UG15/
+https://www.carthage.edu/jenzabar/api/catalog/UG17/
 All Graduate Courses
-https://www.carthage.edu/jenzabar/api/catalog/GR15/
+https://www.carthage.edu/jenzabar/api/catalog/GR17/
 
 OJO:
 
@@ -23,7 +26,7 @@ execute destroy.py to dump the catalog.
 
 then, after importing the UG* courses:
 
-python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG15/
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG17/
 
 execute the following SQL command:
 
@@ -31,7 +34,7 @@ update livewhale_course_catalog set disc="" where dept="EDU"
 
 then run the GR* URL.
 
-python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR15/EDU/
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR17/EDU/
 
 then execute:
 
@@ -46,14 +49,16 @@ cronjob every five minutes:
 
 # catalog generator
 */5 * * * * /usr/bin/prince https://www.carthage.edu/academics/catalog/print/ --output=/d2/livewhale/content/academics/catalog/print/catalog.pdf >> /dev/null 2>&1
+
+Documentation:
+
+https://docs.google.com/document/d/1LWJMx-S6CGkMbM1zdI1SZ8obYB75yAKL0UdFY88Inyg/edit
 """
 
 #set up command-line options
 desc = """
 Takes a URL and grabs JSON data for processing
 """
-import django
-django.setup()
 
 import argparse
 
@@ -80,6 +85,7 @@ def main():
     response =  urllib.urlopen(earl)
     data = response.read()
     jsonResponse = serializers.deserialize("json", data)
+
     # here we cycle through the objects and execute some updates
     for s in jsonResponse:
         if s.object.max_hrs == s.object.min_hrs:
