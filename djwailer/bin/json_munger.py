@@ -31,15 +31,21 @@ python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG
 execute the following SQL command:
 
 update livewhale_course_catalog set disc="" where dept="EDU"
+update livewhale_course_catalog set disc="" where disc="BUS"
 
 then run the GR* URL.
 
 python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR17/EDU/
 
-then execute:
+then execute for EDU courses:
 
 update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU"
 update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc=""
+
+then execute for BUS courses:
+
+update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT"
+update livewhale_course_catalog set disc="BUS" where dept="BUS" and disc=""
 
 prince command:
 
