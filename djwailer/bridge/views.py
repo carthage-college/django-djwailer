@@ -44,7 +44,9 @@ def submission_form(request, content_type, oid=None):
             )
             # recipients
             TO_LIST = []
-            if in_group(usr,"carthageStudentStatus"):
+            student = in_group(usr,'carthageStudentStatus')
+            staff = in_group(usr,'carthageStaffStatus')
+            if student and not staff:
                 TO_LIST = [
                     settings.BRIDGE_STUDENT,settings.BRIDGE_COMMS,usr.email
                 ]
