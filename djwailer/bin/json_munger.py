@@ -58,7 +58,7 @@ cronjob every five minutes:
 
 Documentation:
 
-https://docs.google.com/document/d/1LWJMx-S6CGkMbM1zdI1SZ8obYB75yAKL0UdFY88Inyg/edit
+https://carthage.gitbook.io/documentation/web-development/catalog
 """
 
 #set up command-line options
@@ -140,7 +140,14 @@ def main():
                     terms.append(d.txt)
                 d.delete()
             course.instructors = ', '.join(sorted(profis))
+            # sometimes None comes through as a list item and join()
+            # barfs on that so we remove it first
+            for t in terms:
+                if not t:
+                    terms.remove(t)
+
             course.terms = ', '.join(sorted(terms))
+
         else:
             course.terms = course.txt
         if course.instructors == "" or course.instructors == " ":

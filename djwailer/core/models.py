@@ -31,6 +31,10 @@ SLUGS = {
 
 BRIDGE_URL = settings.BRIDGE_URL
 SERVER_URL = settings.SERVER_URL
+SSL = {
+    'cert': '/d2/www/certs/mysql/titan.carthage.edu/client-cert.pem',
+    'key': '/d2/www/certs/mysql/titan.carthage.edu/client-key.pem'
+}
 
 # move somewhere more appropriate
 def tags_list():
@@ -201,7 +205,7 @@ class LivewhaleEvents(models.Model):
             """.format(data["category"],self.id)
             #cursor = connection.cursor()
             #cursor.execute(sql)
-            mysql_db(sql,db="livewhale")
+            mysql_db(sql,db="livewhale",ssl=SSL)
             # category
             sql = """
                 INSERT INTO livewhale_events_categories2any
@@ -210,7 +214,7 @@ class LivewhaleEvents(models.Model):
                     ({}, {}, 'events')
             """.format(30,self.id)
             #cursor.execute(sql)
-            mysql_db(sql,db="livewhale")
+            mysql_db(sql,db="livewhale",ssl=SSL)
 
 
 class LivewhaleEvents2Any(models.Model):
@@ -443,7 +447,7 @@ class LivewhaleNews(models.Model):
                     ({}, {}, 'news')
             """.format(data["category"], self.id)
             #cursor.execute(sql)
-            mysql_db(sql,db="livewhale")
+            mysql_db(sql,db="livewhale",ssl=SSL)
             # tag it "New"
             sql = """
                 INSERT INTO livewhale_tags2any
@@ -451,7 +455,7 @@ class LivewhaleNews(models.Model):
                 VALUES
                     ({}, {}, 'news')
             """.format(settings.BRIDGE_NEW_TAG, self.id)
-            mysql_db(sql,db="livewhale")
+            mysql_db(sql,db="livewhale",ssl=SSL)
 
             # set dates outside of django timezone aware ecosystem
             # since livewhale does not use UTC for news items
@@ -481,7 +485,7 @@ class LivewhaleNews(models.Model):
                     WHERE
                         id = {}
                 """.format(NOW, self.id)
-            mysql_db(sql,db="livewhale")
+            mysql_db(sql,db="livewhale",ssl=SSL)
 
 
 class LivewhaleNews2Any(models.Model):
