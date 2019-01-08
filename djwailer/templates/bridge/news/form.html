@@ -1,4 +1,5 @@
 {% extends "bridge/event/form.html" %}
+{% load livewhale_api %}
 {% block title %}Submit a News Item to the Carthage Bridge{% endblock %}
 {% block content_head %}
     <h1 id="page_title">
@@ -6,15 +7,6 @@
     </h1>
 {% endblock %}
 {% block content %}
-    <p>
-        Complete the form below to submit your own news to
-        <a href="/bridge/">The Bridge</a>, Carthage's website
-        for campus news and announcements.
-    </p>
-    <p>
-        <strong>Please note: Your article may appear without editing</strong>,
-        along with your name, on the Carthage website, so please submit
-        your news story in publishable form. Your article may be edited in
-        the future for publication elsewhere on the Carthage website.
-    </p>
+    {% get_lw_content as info blurbs 2744 %}
+    {{info.body}}
 {% endblock %}
