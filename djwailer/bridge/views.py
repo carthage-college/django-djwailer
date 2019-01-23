@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -11,6 +12,7 @@ from djtools.utils.mail import send_mail
 from djtools.utils.users import in_group
 
 import os
+
 
 @login_required
 def submission_form(request, content_type, oid=None):
@@ -43,15 +45,18 @@ def submission_form(request, content_type, oid=None):
                 usr.last_name
             )
             # recipients
-            TO_LIST = []
+
             student = in_group(usr,'carthageStudentStatus')
             staff = in_group(usr,'carthageStaffStatus')
-            if student and not staff:
-                TO_LIST = [
-                    settings.BRIDGE_STUDENT,settings.BRIDGE_COMMS,usr.email
-                ]
+            if settings.DEBUG:
+                TO_LIST = [settings.MANAGERS[0][1],]
             else:
-                TO_LIST = [settings.BRIDGE_COMMS,usr.email]
+                if student and not staff:
+                    TO_LIST = [
+                        settings.BRIDGE_STUDENT,settings.BRIDGE_COMMS,usr.email
+                    ]
+                else:
+                    TO_LIST = [settings.BRIDGE_COMMS,usr.email]
 
             data.user = usr
             BCC = settings.MANAGERS
@@ -72,6 +77,7 @@ def submission_form(request, content_type, oid=None):
         {"form": form,}
     )
 
+
 def submission_success(request, content_type):
     # try/catch works as 404 detector
     # and GET initialization for forms
@@ -86,7 +92,7 @@ def submission_success(request, content_type):
         raise Http404
 
 
-def unicode_test(request,oid):
+def unicode_test(request, oid):
     funky = News.objects.using('livewhale').get(pk=oid)
     return render(
         request, "bridge/unicode.html",
