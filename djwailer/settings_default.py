@@ -22,8 +22,18 @@ SITE_ID = 1
 USE_I18N = False
 USE_L10N = False
 USE_TZ = True # LiveWhale stores dates as UTC
-DEFAULT_CHARSET = 'latin1'
-FILE_CHARSET = 'latin1'
+
+# 13 Feb 2014
+#DEFAULT_CHARSET = 'latin1'
+#FILE_CHARSET = 'latin1'
+
+# works! 26 March 2015
+DEFAULT_CHARSET = 'cp1252'
+FILE_CHARSET = 'cp1252'
+
+# commented out prior to 13 Feb 2014
+#DEFAULT_CHARSET = 'utf-8'
+#FILE_CHARSET = 'utf-8'
 
 SERVER_URL = ""
 API_URL = "%s/%s" % (SERVER_URL, "api")
