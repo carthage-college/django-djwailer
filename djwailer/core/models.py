@@ -130,7 +130,7 @@ class LivewhaleBlogsPosts(models.Model):
     date_dt = models.DateTimeField()
     post = models.TextField(blank=True, null=True)
     status = models.IntegerField()
-    visibility = models.IntegerField(blank=True, null=True)
+    visibility = models.IntegerField(blank=True, null=True, default=1)
     date_created = models.DateTimeField()
     last_modified = models.DateTimeField()
     last_user = models.IntegerField()
