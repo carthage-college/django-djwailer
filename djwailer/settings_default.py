@@ -35,16 +35,17 @@ FILE_CHARSET = 'cp1252'
 #DEFAULT_CHARSET = 'utf-8'
 #FILE_CHARSET = 'utf-8'
 
-SERVER_URL = ""
-API_URL = "%s/%s" % (SERVER_URL, "api")
+SERVER_URL = ''
+API_URL = '{}/{}'.format(SERVER_URL, 'api')
+LIVEWHALE_API_URL = 'https://{}'.format(SERVER_URL)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_DIR = os.path.dirname(__file__)
-ROOT_URL = "/djwailer/"
+ROOT_URL = '/djwailer/'
 ROOT_URLCONF = 'djwailer.urls'
 WSGI_APPLICATION = 'djwailer.wsgi.application'
 MEDIA_ROOT = ''
 STATIC_ROOT = ''
-STATIC_URL = "/static/"
+STATIC_URL = '/static/'
 STATICFILES_DIRS = ()
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -100,17 +101,16 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            "/data2/django_projects/djwailer/templates/",
-            "/data2/django_templates/djkatara/",
-            "/data2/django_templates/djcher/",
-            "/data2/django_templates/django-djskins/",
-            "/data2/livewhale/includes/",
+            os.path.join(os.path.dirname(__file__), 'templates'),
+            '/data2/django_templates/djkatara/',
+            '/data2/django_templates/djcher/',
+            '/data2/django_templates/',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'debug':DEBUG,
             'context_processors': [
-                "djtools.context_processors.sitevars",
+                'djtools.context_processors.sitevars',
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.media',
@@ -133,7 +133,7 @@ CACHES = {
         #'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         #'LOCATION': '/var/tmp/django_directory_cache',
         #'TIMEOUT': 60*20,
-        #'KEY_PREFIX': "DIRECTORY_",
+        #'KEY_PREFIX': 'DIRECTORY_',
         #'OPTIONS': {
         #    'MAX_ENTRIES': 80000,
         #}
@@ -143,16 +143,16 @@ CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 # LDAP Constants
 LDAP_SERVER = ''
 LDAP_PORT = '636'
-LDAP_PROTOCOL = "ldaps"
-LDAP_BASE = ""
-LDAP_USER = ""
-LDAP_PASS = ""
-LDAP_EMAIL_DOMAIN = ""
-LDAP_OBJECT_CLASS = ""
+LDAP_PROTOCOL = 'ldaps'
+LDAP_BASE = ''
+LDAP_USER = ''
+LDAP_PASS = ''
+LDAP_EMAIL_DOMAIN = ''
+LDAP_OBJECT_CLASS = ''
 LDAP_OBJECT_CLASS_LIST = []
 LDAP_GROUPS = {}
 LDAP_RETURN = []
-LDAP_ID_ATTR=""
+LDAP_ID_ATTR=''
 # SMTP & Email settings
 EMAIL_HOST = ''
 EMAIL_HOST_USER = ''
@@ -162,7 +162,7 @@ EMAIL_PORT = 587
 EMAIL_FAIL_SILENTLY = True
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
-SERVER_MAIL=""
+SERVER_MAIL=''
 CONTINUING_EDUCATION_INFOSESSION_RECIPIENTS = {}
 # auth backends
 AUTHENTICATION_BACKENDS = (
@@ -173,9 +173,9 @@ LOGIN_URL = '/djwailer/accounts/login/'
 LOGOUT_URL = '/djwailer/accounts/logout/'
 LOGIN_REDIRECT_URL = '/djwailer/'
 USE_X_FORWARDED_HOST = True
-#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_COOKIE_DOMAIN=".carthage.edu"
+SESSION_COOKIE_DOMAIN='.carthage.edu'
 SESSION_COOKIE_NAME ='django_carthage_cookie'
 SESSION_COOKIE_AGE = 86400
 # App settings
@@ -187,19 +187,19 @@ BRIDGE_NEW_TAG=''
 BRIDGE_STUDENT = []
 BRIDGE_COMMS = []
 # logging
-LOG_FILEPATH = os.path.join(os.path.dirname(__file__), "logs/")
-LOG_FILENAME = LOG_FILEPATH + "debug.log"
+LOG_FILEPATH = os.path.join(os.path.dirname(__file__), 'logs/')
+LOG_FILENAME = LOG_FILEPATH + 'debug.log'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'formatters': {
         'standard': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%Y/%b/%d %H:%M:%S"
+            'format' : '[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s',
+            'datefmt' : '%Y/%b/%d %H:%M:%S'
         },
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s',
-            'datefmt' : "%Y/%b/%d %H:%M:%S"
+            'datefmt' : '%Y/%b/%d %H:%M:%S'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
