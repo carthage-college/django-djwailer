@@ -14,11 +14,11 @@ Informix in JSON format and imported into MySQL.
 URL structure:
 
 Physics
-https://www.carthage.edu/jenzabar/api/catalog/UG17/PHY/
+https://www.carthage.edu/jenzabar/api/catalog/UG19/PHY/
 ALL Undergraduate Courses
-https://www.carthage.edu/jenzabar/api/catalog/UG17/
+https://www.carthage.edu/jenzabar/api/catalog/UG19/
 All Graduate Courses
-https://www.carthage.edu/jenzabar/api/catalog/GR17/
+https://www.carthage.edu/jenzabar/api/catalog/GR19/
 
 OJO:
 
@@ -26,16 +26,17 @@ execute destroy.py to dump the catalog.
 
 then, after importing the UG* courses:
 
-python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG17/
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG19/
 
 execute the following SQL command:
 
 update livewhale_course_catalog set disc="" where dept="EDU"
 update livewhale_course_catalog set disc="" where disc="BUS"
+update livewhale_course_catalog set disc="" where disc="MUS"
 
 then run the GR* URL.
 
-python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR17/EDU/
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR19/EDU/
 
 then execute for EDU courses:
 
@@ -46,6 +47,12 @@ then execute for BUS courses:
 
 update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT"
 update livewhale_course_catalog set disc="BUS" where dept="BUS" and disc=""
+
+then execute for MUS courses:
+
+update livewhale_course_catalog set disc="MMT" where dept="MUS" and disc="MUS"
+update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc=""
+
 
 prince command:
 
