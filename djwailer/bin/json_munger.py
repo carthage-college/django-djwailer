@@ -20,45 +20,54 @@ https://www.carthage.edu/jenzabar/api/catalog/UG19/
 All Graduate Courses
 https://www.carthage.edu/jenzabar/api/catalog/GR19/
 
-OJO:
+NOTE: You can find the API Key in the djzbar settings file.
 
-execute destroy.py to dump the catalog.
+Steps:
 
-then, after importing the UG* courses:
+1) execute destroy.py to dump the catalog.
 
-python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG19/
+2) import the UG* courses:
 
-execute the following SQL command:
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG19/?api_key=xxx
 
-update livewhale_course_catalog set disc="" where dept="EDU"
-update livewhale_course_catalog set disc="" where disc="BUS"
-update livewhale_course_catalog set disc="" where disc="MUS"
+3) execute the following SQL incantation:
 
-then run the GR* URL.
+update livewhale_course_catalog set disc="" where dept="EDU";
+update livewhale_course_catalog set disc="" where disc="BUS";
+update livewhale_course_catalog set disc="" where disc="MUS";
 
-python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR19/EDU/
+4) execute the GR* URL for EDU:
 
-then execute for EDU courses:
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR19/EDU/?api_key=xxx
 
-update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU"
-update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc=""
+execute the SQL incantation for EDU courses:
 
-then execute for BUS courses:
+update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU";
+update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc="";
 
-update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT"
-update livewhale_course_catalog set disc="BUS" where dept="BUS" and disc=""
+5) no need to execute the json munger for BUS:
 
-then execute for MUS courses:
+execute the SQL incantation for BUS courses:
 
-update livewhale_course_catalog set disc="MMT" where dept="MUS" and disc="MUS"
-update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc=""
+update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT";
+update livewhale_course_catalog set disc="BUS" where dept="BUS" and disc="";
 
+6) execute the GR* URL FOR MUS:
 
-prince command:
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR19/MUS/?api_key=xxx
 
-/usr/bin/prince https://www.carthage.edu/academics/catalog/print/index.php -o catalog.pdf
+execute the SQL incantation for MUS courses:
 
-cronjob every five minutes:
+update livewhale_course_catalog set disc="MMT" where dept="MUS" and disc="MUS";
+update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc="";
+
+7) generate the PDF with the prince command:
+
+cd /data2/www/vhosts/carthage.edu/subdomains/ganymede/httpdocs/academics/catalog/print
+
+/usr/local/bin/prince https://www.carthage.edu/academics/catalog/print/index.php -o catalog.pdf
+
+8) optionally, set up a cronjob that runs every five minutes:
 
 # catalog generator
 */5 * * * * /usr/bin/prince https://www.carthage.edu/academics/catalog/print/ --output=/d2/livewhale/content/academics/catalog/print/catalog.pdf >> /dev/null 2>&1
