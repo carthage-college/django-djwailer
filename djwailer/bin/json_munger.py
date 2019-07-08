@@ -63,7 +63,8 @@ update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc="";
 
 7) generate the PDF with the prince command:
 
-cd /data2/www/vhosts/carthage.edu/subdomains/ganymede/httpdocs/academics/catalog/print
+ssh ganymede.carthage.edu
+cd /data2/www/vhosts/carthage.edu/subdomains/ganymede/httpdocs/academics/catalog/print/
 
 /usr/local/bin/prince https://www.carthage.edu/academics/catalog/print/index.php -o catalog.pdf
 
