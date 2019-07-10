@@ -33,8 +33,9 @@ python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG
 3) execute the following SQL incantation:
 
 update livewhale_course_catalog set disc="" where dept="EDU";
-update livewhale_course_catalog set disc="" where disc="BUS";
 update livewhale_course_catalog set disc="" where disc="MUS";
+update livewhale_course_catalog set disc="" where disc="BUS";
+update livewhale_course_catalog set disc="" where disc="MGT";
 
 4) execute the GR* URL for EDU:
 
@@ -45,14 +46,7 @@ execute the SQL incantation for EDU courses:
 update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU";
 update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc="";
 
-5) no need to execute the json munger for BUS:
-
-execute the SQL incantation for BUS courses:
-
-update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT";
-update livewhale_course_catalog set disc="BUS" where dept="BUS" and disc="";
-
-6) execute the GR* URL FOR MUS:
+5) execute the GR* URL FOR MUS:
 
 python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR19/MUS/?api_key=xxx
 
@@ -60,6 +54,15 @@ execute the SQL incantation for MUS courses:
 
 update livewhale_course_catalog set disc="MMT" where dept="MUS" and disc="MUS";
 update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc="";
+
+6) execute the GR* URL for MGT
+
+https://www.carthage.edu/jenzabar/api/catalog/GR19/MGT/?api_key=xxx
+
+execute the SQL incantation for BUS courses:
+
+update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT";
+update livewhale_course_catalog set disc="BUS" where dept="BUS" and disc="";
 
 7) generate the PDF with the prince command:
 
