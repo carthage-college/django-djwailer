@@ -34,7 +34,6 @@ python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/UG
 
 update livewhale_course_catalog set disc="" where dept="EDU";
 update livewhale_course_catalog set disc="" where disc="MUS";
-update livewhale_course_catalog set disc="" where disc="BUS";
 update livewhale_course_catalog set disc="" where disc="MGT";
 
 4) execute the GR* URL for EDU:
@@ -59,10 +58,10 @@ update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc="";
 
 https://www.carthage.edu/jenzabar/api/catalog/GR19/MGT/?api_key=xxx
 
-execute the SQL incantation for BUS courses:
+execute the SQL incantation for MGT courses:
 
 update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT";
-update livewhale_course_catalog set disc="BUS" where dept="BUS" and disc="";
+update livewhale_course_catalog set disc="MGT" where dept="MMK" and disc="";
 
 7) generate the PDF with the prince command:
 
