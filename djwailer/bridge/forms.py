@@ -17,6 +17,9 @@ SEND_TO = (
     (False,'[TEST] Communications'),
     (True,'[LIVE] Campus Community'),
 )
+import logging
+#logger = logging.getLogger(__name__)
+logger = logging.getLogger('debug_logger')
 
 
 class EventSubmissionForm(forms.ModelForm):
@@ -42,10 +45,24 @@ class EventSubmissionForm(forms.ModelForm):
     category = forms.CharField(
         widget=forms.Select(choices=CATEGORIES, attrs=REQ)
     )
+    entity = forms.CharField(
+        label="Sponsoring department, office, or student organization",
+        max_length=255, required=True
+    )
+    contact_information = forms.CharField(
+        required=True, widget=forms.Textarea,
+        help_text="""
+            Who should people contact for more information?
+            Please include name and phone or email.
+        """
+    )
 
     class Meta:
         model = LivewhaleEvents
-        fields = ('title','description','location')
+        fields = (
+            'title','description','location','start_date','end_date',
+            'start_time','end_time','category','entity','contact_information'
+        )
 
     def clean_end_date(self):
         start_date = self.cleaned_data.get('start_date')
@@ -65,16 +82,26 @@ class EventSubmissionForm(forms.ModelForm):
                 """)
         return end_time
 
-    def clean_description(self):
-        description = sanitize(self.cleaned_data.get('description'))
-        return description
+    def clean(self):
+        cd = self.cleaned_data
+        description = cd.get('description')
+        if description:
+            if cd.get('entity'):
+                entity = '<h4>SPONSORING DEPARTMENT, OFFICE, OR ORGANIZATION:</h4>'
+                entity += '<p>{}</p>'.format(cd['entity'])
+                description += entity
+            if cd.get('contact_information'):
+                contact = '<h4>FOR MORE INFORMATION, CONTACT:</h4>'
+                contact += '<p>{}</p>'.format(cd['contact_information'])
+                description += contact
+            cd['description'] = sanitize(description)
+        return cd
 
 
 class NewsSubmissionForm(forms.ModelForm):
     headline = forms.CharField(max_length=255)
     body = forms.CharField(
-        label="Body of Article",
-        widget=forms.Textarea
+        label="Body of Article", widget=forms.Textarea
     )
     summary = forms.CharField(
         label = """
@@ -86,16 +113,39 @@ class NewsSubmissionForm(forms.ModelForm):
     category = forms.CharField(
         widget=forms.Select(choices=CATEGORIES, attrs=REQ)
     )
+    entity = forms.CharField(
+        label="Sponsoring department, office, or student organization",
+        max_length=255, required=False
+    )
+    contact_information = forms.CharField(
+        required=False, widget=forms.Textarea,
+        help_text="""
+            Who should people contact for more information?
+            Please include name and phone or email.
+        """
+    )
 
     class Meta:
         model = LivewhaleNews
-        fields = ('headline','body','summary')
+        fields = (
+            'headline','body','summary','category','entity','contact_information'
+        )
 
-    def clean_body(self):
-        body = sanitize(self.cleaned_data.get('body'))
-        return body
+    def clean(self):
+        cd = self.cleaned_data
+        body = cd.get('body')
+        if body:
+            if cd.get('entity'):
+                entity = '<h4>SPONSORING DEPARTMENT, OFFICE, OR ORGANIZATION:</h4>'
+                entity += '<p>{}</p>'.format(cd['entity'])
+                body += entity
+            if cd.get('contact_information'):
+                contact = '<h4>FOR MORE INFORMATION, CONTACT:</h4>'
+                contact += '<p>{}</p>'.format(cd['contact_information'])
+                body += contact
+            cd['body'] = sanitize(body)
+        return cd
 
     def clean_summary(self):
         summary = sanitize(self.cleaned_data.get('summary'))
         return summary
-

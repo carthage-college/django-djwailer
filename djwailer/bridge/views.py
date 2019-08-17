@@ -21,31 +21,30 @@ def submission_form(request, content_type, oid=None):
     # fetch an object or 404
     if oid and request.user.is_superuser: # open up to author at some point
         mod = eval( ct )
-        obj = get_object_or_404( mod.objects.using("livewhale"), id=oid )
+        obj = get_object_or_404( mod.objects.using('livewhale'), id=oid )
 
     # try/catch works as 404 detector
     # and GET initialization for forms
     try:
-        form = eval(ct + "SubmissionForm")(instance=obj)
-        email_template = "bridge/{}/email.html".format(content_type)
-        os.stat(os.path.join(settings.ROOT_DIR, "templates", email_template))
+        form = eval(ct + 'SubmissionForm')(instance=obj)
+        email_template = 'bridge/{}/email.html'.format(content_type)
+        os.stat(os.path.join(settings.ROOT_DIR, 'templates', email_template))
     except:
         raise Http404
 
     if request.POST:
-        form = eval(ct + "SubmissionForm")(request.POST)
+        form = eval(ct + 'SubmissionForm')(request.POST)
         if form.is_valid():
             usr = request.user
             cd = form.cleaned_data
             data = form.save(commit=False)
-            cd["user"] = usr
+            cd['user'] = usr
             data.save(using='livewhale', data=cd)
             subject = "[The Bridge] {}: submitted by {} {}".format(
                 ct, usr.first_name,
                 usr.last_name
             )
             # recipients
-
             student = in_group(usr,'carthageStudentStatus')
             staff = in_group(usr,'carthageStaffStatus')
             if settings.DEBUG:
@@ -74,7 +73,7 @@ def submission_form(request, content_type, oid=None):
 
     return render(
         request, 'bridge/{}/form.html'.format(content_type),
-        {"form": form,}
+        {'form': form,}
     )
 
 
@@ -82,11 +81,11 @@ def submission_success(request, content_type):
     # try/catch works as 404 detector
     # and GET initialization for forms
     try:
-        template = "bridge/{}/done.html".format(content_type)
-        os.stat(os.path.join(settings.ROOT_DIR, "templates", template))
+        template = 'bridge/{}/done.html'.format(content_type)
+        os.stat(os.path.join(settings.ROOT_DIR, 'templates', template))
         return render(
             request, template,
-            {"content_type": content_type,}
+            {'content_type': content_type,}
         )
     except:
         raise Http404
@@ -95,7 +94,6 @@ def submission_success(request, content_type):
 def unicode_test(request, oid):
     funky = News.objects.using('livewhale').get(pk=oid)
     return render(
-        request, "bridge/unicode.html",
-        {"funky":funky,}
+        request, 'bridge/unicode.html', {'funky':funky,}
     )
 
