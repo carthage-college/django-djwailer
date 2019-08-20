@@ -9,7 +9,7 @@
 <script src="//www.carthage.edu/static/vendor/jquery/plugins/trumbowyg/trumbowyg.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function() {
-    $('textarea').trumbowyg({
+    var $wysiwyg = {
       btns: [
         ['formatting'], ['strong', 'em', 'del'], ['link'],
         ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
@@ -17,7 +17,10 @@ $(function() {
       ],
       tagsToRemove: ['script', 'link'],
       removeformatPasted: true, semantic: true, autogrow: true, resetCss: true
-    });
+    };
+    $('#id_description').trumbowyg($wysiwyg);
+    $('#id_summary').trumbowyg($wysiwyg);
+    $('#id_body').trumbowyg($wysiwyg);
     $("#id_start_date, #id_end_date").datepicker({
         firstDay:0,appendText:"(format yyyy-mm-dd)",
         changeFirstDay:false,dateFormat:"yy-mm-dd",
