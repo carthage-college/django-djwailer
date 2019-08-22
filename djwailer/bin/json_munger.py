@@ -56,7 +56,7 @@ update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc="";
 
 6) execute the GR* URL for MGT
 
-https://www.carthage.edu/jenzabar/api/catalog/GR19/MGT/?api_key=xxx
+python bin/json_munger.py --url=https://www.carthage.edu/jenzabar/api/catalog/GR19/MGT/?api_key=xxx
 
 execute the SQL incantation for MGT courses:
 
