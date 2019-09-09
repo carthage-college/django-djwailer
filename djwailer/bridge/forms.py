@@ -88,11 +88,11 @@ class EventSubmissionForm(forms.ModelForm):
         if description:
             if cd.get('entity'):
                 entity = '<h4>SPONSORING DEPARTMENT, OFFICE, OR ORGANIZATION:</h4>'
-                entity += '<p>{}</p>'.format(cd['entity'])
+                entity += u'<p>{}</p>'.format(cd['entity'])
                 description += entity
             if cd.get('contact_information'):
                 contact = '<h4>FOR MORE INFORMATION, CONTACT:</h4>'
-                contact += '<p>{}</p>'.format(cd['contact_information'])
+                contact += u'<p>{}</p>'.format(cd['contact_information'])
                 description += contact
             cd['description'] = sanitize(description)
         return cd
@@ -137,11 +137,11 @@ class NewsSubmissionForm(forms.ModelForm):
         if body:
             if cd.get('entity'):
                 entity = '<h4>SPONSORING DEPARTMENT, OFFICE, OR ORGANIZATION:</h4>'
-                entity += '<p>{}</p>'.format(cd['entity'])
+                entity += u'<p>{}</p>'.format(cd['entity'])
                 body += entity
             if cd.get('contact_information'):
                 contact = '<h4>FOR MORE INFORMATION, CONTACT:</h4>'
-                contact += '<p>{}</p>'.format(cd['contact_information'])
+                contact += u'<p>{}</p>'.format(cd['contact_information'])
                 body += contact
             cd['body'] = sanitize(body)
         return cd
