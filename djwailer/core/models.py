@@ -11,14 +11,15 @@ from djtools.utils.users import in_group
 import datetime
 
 CATEGORIES = (
-    ('','---------'),
-    ('498','News & Notices'),
-    ('499','Lectures & Presentations'),
-    ('500','Arts & Performances'),
-    ('477','Kudos'),
-    ('501','Faculty & Staff News'),
-    ('502','Student News'),
-    ('504','Library & Technology'),
+    ('', '---------'),
+    ('498', 'News & Notices'),
+    ('499', 'Lectures & Presentations'),
+    ('1498', 'Dear Lake, We Miss You'),
+    ('500', 'Arts & Performances'),
+    ('477', 'Kudos'),
+    ('501', 'Faculty & Staff News'),
+    ('502', 'Student News'),
+    ('504', 'Library & Technology'),
 )
 
 SLUGS = {
