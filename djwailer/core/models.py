@@ -59,7 +59,7 @@ def get_tag(sid,jid):
         #return '<a href="http://{}{}{}/">{}</a>'.format(
         #    SERVER_URL,BRIDGE_URL,slug,tag
         #)
-    except Exception, e:
+    except Exception as e:
         #obj = str('<strong>{}</strong>'.format(e))
         return ""
 
@@ -1009,7 +1009,7 @@ class LivewhaleNews2Any(models.Model):
 
 
 class LivewhalePages(models.Model):
-    id = models.AutoField(unique=True)
+    id = models.IntegerField(unique=True)
     gid = models.IntegerField(blank=True, null=True)
     gids = models.CharField(max_length=1000, blank=True, null=True)
     uids = models.CharField(max_length=1000, blank=True, null=True)
@@ -1135,7 +1135,7 @@ class LivewhalePagesNotes(models.Model):
 
 
 class LivewhalePagesRevisions(models.Model):
-    id = models.AutoField(unique=True)
+    id = models.IntegerField(unique=True)
     gid = models.IntegerField(blank=True, null=True)
     gids = models.CharField(max_length=1000, blank=True, null=True)
     uids = models.CharField(max_length=1000, blank=True, null=True)
