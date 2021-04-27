@@ -393,10 +393,10 @@ class LivewhaleEvents(models.Model):
         return "https://www.carthage.edu/live/events/{}/".format(self.id)
 
     def save(self, data=None, *args, **kwargs):
-        self.title = strip_tags(self.title).encode('utf8')
-        self.summary = strip_tags(self.summary).encode('utf8')
-        self.description = self.description.encode('utf8')
-        self.location = strip_tags(self.location).encode('utf8')
+        self.title = strip_tags(self.title)
+        self.summary = strip_tags(self.summary)
+        self.description = self.description
+        self.location = strip_tags(self.location)
 
         if data:
             u = data["user"]
@@ -896,7 +896,7 @@ class LivewhaleNews(models.Model):
         managed = False
         db_table = 'livewhale_news'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.headline
 
     def get_absolute_url(self):
@@ -920,9 +920,9 @@ class LivewhaleNews(models.Model):
         )
 
     def save(self, data=None, *args, **kwargs):
-        self.headline = strip_tags(self.headline).encode('utf8')
-        self.summary = strip_tags(self.summary).encode('utf8')
-        self.body = self.body.encode('utf8')
+        self.headline = strip_tags(self.headline)
+        self.summary = strip_tags(self.summary)
+        self.body = self.body
 
         # dates
         NOW  = datetime.datetime.now()
@@ -1065,8 +1065,8 @@ class LivewhalePages(models.Model):
         db_table = 'livewhale_pages'
         unique_together = (('host', 'id'),)
 
-    def __unicode__(self):
-        return self.short_title.decode('utf-8')
+    def __str__(self):
+        return self.short_title
 
     def get_absolute_url(self):
         return 'https://www.carthage.edu{}/'.format(self.directory)
