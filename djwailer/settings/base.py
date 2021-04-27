@@ -6,41 +6,45 @@
 import os
 
 
-DEBUG = True
-ADMINS = (
-    ('', ''),
-)
+DEBUG = False
+INFORMIX_DEBUG = ''
+REQUIRED_ATTRIBUTE = True
+ADMINS = ()
 MANAGERS = ADMINS
-
 SECRET_KEY = None
-ALLOWED_HOSTS = []
+ENCRYPTION_KEY = None
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'America/Chicago'
+TIME_INPUT_FORMATS = ('%H:%M %p',)
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = False
-USE_TZ = True
-TIME_ZONE = 'America/Chicago'
-DEFAULT_CHARSET = 'cp1252'
-FILE_CHARSET = 'cp1252'
+USE_TZ = False
+DEFAULT_CHARSET = 'utf-8'
+FILE_CHARSET = 'utf-8'
 SERVER_URL = ''
 API_URL = '{0}/{1}'.format(SERVER_URL, 'api')
 LIVEWHALE_API_URL = 'https://{0}'.format(SERVER_URL)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_APP = os.path.basename(BASE_DIR)
-ROOT_URL = ''
-BRIDGE_URL = ''
 ROOT_URLCONF = 'djwailer.urls'
 WSGI_APPLICATION = 'djwailer.wsgi.application'
-MEDIA_ROOT = ''
-MEDIA_URL = ''
-STATIC_ROOT = ''
-STATIC_URL = ''
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = BASE_DIR
+PROJECT_APP = os.path.basename(BASE_DIR)
+ROOT_URL = '/{0}/'.format(PROJECT_APP)
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+MEDIA_ROOT = '{0}/assets/'.format(ROOT_DIR)
+STATIC_ROOT = '{0}/static/'.format(ROOT_DIR)
+STATIC_URL = '/static/{0}/'.format(PROJECT_APP)
+MEDIA_URL = '/media/{0}/'.format(PROJECT_APP)
+UPLOADS_DIR = '{0}files/'.format(MEDIA_ROOT)
+UPLOADS_URL = '{0}files/'.format(MEDIA_URL)
+FILE_UPLOAD_PERMISSIONS = 0o644
 STATICFILES_DIRS = ()
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
 )
-
 DATABASES = {
     'default': {
         'HOST': '',
@@ -64,7 +68,6 @@ DATABASES = {
         },
     },
 }
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -82,22 +85,20 @@ INSTALLED_APPS = (
     # sign in as a user
     'loginas',
 )
-
 MIDDLEWARE = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-
 # template stuff
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(os.path.dirname(__file__), 'templates'),
+            os.path.join(BASE_DIR, 'templates'),
             '/data2/django_templates/djkatara/',
             '/data2/django_templates/djcher/',
             '/data2/django_templates/',
@@ -123,8 +124,12 @@ LDAP_PROTOCOL = ''
 LDAP_BASE = ''
 LDAP_USER = ''
 LDAP_PASS = None
-LDAP_EMAIL_DOMAIN = ''
 LDAP_OBJECT_CLASS = ''
+LDAP_GROUPS = None
+LDAP_RETURN = ()
+LDAP_ID_ATTR = ''
+LDAP_AUTH_USER_PK = False
+LDAP_EMAIL_DOMAIN = ''
 LDAP_OBJECT_CLASS_LIST = []
 LDAP_GROUPS = {}
 LDAP_RETURN = []
@@ -142,7 +147,7 @@ SERVER_EMAIL = ''
 SERVER_MAIL = ''
 # auth backends
 AUTHENTICATION_BACKENDS = (
-    'djauth.ldapBackend.LDAPBackend',
+    'djauth.backends.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '{0}accounts/login/'.format(ROOT_URL)
@@ -150,8 +155,8 @@ LOGOUT_URL = '{0}accounts/logout/'.format(ROOT_URL)
 LOGIN_REDIRECT_URL = ROOT_URL
 USE_X_FORWARDED_HOST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_DOMAIN = ''
-SESSION_COOKIE_NAME = ''
+SESSION_COOKIE_DOMAIN='.carthage.edu'
+SESSION_COOKIE_NAME = 'django_djwailer_cookie'
 SESSION_COOKIE_AGE = 86400
 # App settings
 BRIDGE_CATEGORY = 30
@@ -163,8 +168,11 @@ BRIDGE_STUDENT = ''
 BRIDGE_COMMS = ''
 PROFILES_TO_LIST = []
 # logging
-LOG_FILEPATH = os.path.join(os.path.dirname(__file__), 'logs/')
-LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'debug.log')
+LOG_FILEPATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/')
+DEBUG_LOG_FILENAME = LOG_FILEPATH + 'debug.log'
+INFO_LOG_FILENAME = LOG_FILEPATH + 'info.log'
+ERROR_LOG_FILENAME = LOG_FILEPATH + 'error.log'
+CUSTOM_LOG_FILENAME = LOG_FILEPATH + 'custom.log'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -177,18 +185,52 @@ LOGGING = {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s',
             'datefmt': '%Y/%b/%d %H:%M:%S',
         },
+        'custom': {
+            'format': '%(asctime)s: %(levelname)s: %(message)s',
+            'datefmt': '%m/%d/%Y %I:%M:%S %p'
+        },
         'simple': {
             'format': '%(levelname)s %(message)s',
         },
     },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
     'handlers': {
-        'logfile': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOG_FILENAME,
+        'custom_logfile': {
+            'level':'ERROR',
+            'filters': ['require_debug_true'], # do not run error logger in production
+            'class': 'logging.FileHandler',
+            'filename': CUSTOM_LOG_FILENAME,
+            'formatter': 'custom',
+        },
+        'info_logfile': {
+            'level':'INFO',
+            'class':'logging.handlers.RotatingFileHandler',
+            'backupCount': 10,
             'maxBytes': 50000,
-            'backupCount': 2,
-            'formatter': 'standard',
+            'filters': ['require_debug_false'], # run logger in production
+            'filename': INFO_LOG_FILENAME,
+            'formatter': 'simple',
+        },
+        'debug_logfile': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'], # do not run debug logger in production
+            'class': 'logging.FileHandler',
+            'filename': DEBUG_LOG_FILENAME,
+            'formatter': 'verbose'
+        },
+        'error_logfile': {
+            'level': 'ERROR',
+            #'filters': ['require_debug_true'], # do not run error logger in production
+            'class': 'logging.FileHandler',
+            'filename': ERROR_LOG_FILENAME,
+            'formatter': 'verbose'
         },
         'console': {
             'level': 'INFO',
@@ -197,24 +239,46 @@ LOGGING = {
         },
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'include_html': True,
             'class': 'django.utils.log.AdminEmailHandler',
         },
     },
     'loggers': {
-        'djwailer': {
-            'handlers': ['logfile'],
+        'djimix': {
+            'handlers':['debug_logfile'],
             'propagate': True,
-            'level': 'DEBUG',
+            'level':'DEBUG',
         },
-        'core': {
-            'handlers': ['logfile'],
+        'error_logger': {
+            'handlers': ['error_logfile'],
+            'level': 'ERROR'
+         },
+        'info_logger': {
+            'handlers': ['info_logfile'],
+            'level': 'INFO'
+        },
+        'debug_logger': {
+            'handlers':['debug_logfile'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
+        'custom_logfile': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],  # do not run error logger in production
+            'class': 'logging.FileHandler',
+            'filename': CUSTOM_LOG_FILENAME,
+            'formatter': 'custom',
+        },
+        'djauth': {
+            'handlers': ['debug_logfile'],
             'propagate': True,
             'level': 'DEBUG',
         },
         'django': {
-            'handlers': ['console'],
+            'handlers':['console'],
             'propagate': True,
-            'level': 'WARN',
+            'level':'WARN',
         },
         'django.db.backends': {
             'handlers': ['console'],
@@ -228,7 +292,6 @@ LOGGING = {
         },
     },
 }
-
 ##################
 # LOCAL SETTINGS #
 ##################

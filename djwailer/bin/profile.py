@@ -33,17 +33,14 @@ def main():
 
     #print prof
     #print prof[0]
-    print prof[0]['url']
+    print(prof[0]['url'])
 
-######################
-# shell command line
-######################
 
 if __name__ == "__main__":
     (options, args) = parser.parse_args()
     earl = options.earl
     if not earl:
-        print "You must provide a URL\n"
+        print("You must provide a URL\n")
         parser.print_help()
         exit(-1)
 

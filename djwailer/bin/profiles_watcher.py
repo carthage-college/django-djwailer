@@ -21,7 +21,6 @@ to notify them of any profile changes
 def main():
     # mail stuff
     BCC = settings.MANAGERS
-    TO_LIST = ["eyoung@carthage.edu","tapplegarth@carthage.edu",]
     FROM = "Carthage Bridge <bridge@carthage.edu>"
     days = 1
     now = datetime.date.today()
@@ -45,13 +44,10 @@ def main():
         subject = "[Profiles] Modified in the past 24 hours"
         request = None
         send_mail(
-            request, TO_LIST, subject, FROM,
+            request, settings.PROFILES_TO_LIST, subject, FROM,
             "livewhale/profiles/watcher_email.html", profiles, BCC
         )
 
-######################
-# shell command line
-######################
 
 if __name__ == "__main__":
     sys.exit(main())

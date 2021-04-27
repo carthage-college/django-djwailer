@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
+import datetime
 
 from django.conf import settings
-from django.db import models, connection
+from django.db import connection
+from django.db import models
 from django.utils.html import strip_tags
-
 from djtools.utils.database import mysql_db
 from djtools.utils.users import in_group
 
-import datetime
 
 CATEGORIES = (
     ('', '---------'),
     ('498', 'News & Notices'),
     ('499', 'Lectures & Presentations'),
-    ('1498', 'Dear Lake, We Miss You'),
+    ('1523', '#StaySafeCarthage'),
     ('500', 'Arts & Performances'),
     ('477', 'Kudos'),
     ('501', 'Faculty & Staff News'),
@@ -30,6 +30,7 @@ SLUGS = {
     501:'faculty-staff-news',
     502:'students/news',
     504:'technology',
+    1523: 'StaySafeCarthage',
 }
 
 BRIDGE_URL = settings.BRIDGE_URL

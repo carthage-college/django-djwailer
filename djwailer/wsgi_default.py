@@ -1,29 +1,19 @@
+# -*- coding: utf-8 -*-
+
+"""WSGI configuration."""
+
 import os
-import time
-import traceback
-import signal
 import sys
 
-# python
-sys.path.append('/data2/python_venv/2.7/djwailer/lib/python2.7/')
-sys.path.append('/data2/python_venv/2.7/djwailer/lib/python2.7/site-packages/')
-sys.path.append('/data2/python_venv/2.7/djwailer/lib/django_projects/')
-sys.path.append('/data2/python_venv/2.7/djwailer/lib/django-djwailer/')
-# django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djwailer.settings')
-os.environ.setdefault('PYTHON_EGG_CACHE', '')
-os.environ.setdefault('TZ', 'America/Chicago')
-# wsgi
 from django.core.wsgi import get_wsgi_application
 
-# NOTE: remove the try/except in production
-#application = get_wsgi_application()
-try:
-    application = get_wsgi_application()
-except Exception:
-    # Error loading applications
-    if 'mod_wsgi' in sys.modules:
-        traceback.print_exc()
-        os.kill(os.getpid(), signal.SIGINT)
-        time.sleep(2.5)
-    exit(-1)
+
+# python
+sys.path.append('/d2/python_venv/3.6/djwailer/lib/python3.6/')
+sys.path.append('/d2/python_venv/3.6/djwailer/lib/python3.6/site-packages/')
+# django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djwailer.settings.staging')
+os.environ.setdefault('PYTHON_EGG_CACHE', '/var/cache/python/.python-eggs')
+os.environ.setdefault('TZ', 'America/Chicago')
+# wsgi
+application = get_wsgi_application()

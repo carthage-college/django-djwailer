@@ -173,9 +173,6 @@ def main():
             course.instructors = "Staff"
         course.save(using="livewhale")
 
-######################
-# shell command line
-######################
 
 if __name__ == "__main__":
     args = parser.parse_args()
