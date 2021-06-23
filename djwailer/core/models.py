@@ -267,7 +267,7 @@ class LivewhaleCourseCatalog(models.Model):
     suffixname = models.CharField(max_length=32, blank=True, null=True)
     fac_id = models.CharField(max_length=16, blank=True, null=True)
     email = models.CharField(max_length=128, blank=True, null=True)
-    instructors = models.CharField(max_length=512, blank=True, null=True)
+    instructors = models.CharField(max_length=1024, blank=True, null=True)
     core = models.CharField(max_length=4, blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 

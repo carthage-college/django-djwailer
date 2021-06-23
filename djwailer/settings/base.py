@@ -167,6 +167,8 @@ BRIDGE_NEW_TAG = '988'
 BRIDGE_STUDENT = ''
 BRIDGE_COMMS = ''
 PROFILES_TO_LIST = []
+LIVEWHALE_PROFILE_ID = 37
+LIVEWHALE_PROFILE_STAFF_ID = 625
 # logging
 LOG_FILEPATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/')
 DEBUG_LOG_FILENAME = LOG_FILEPATH + 'debug.log'

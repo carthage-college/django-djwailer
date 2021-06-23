@@ -5,4 +5,5 @@ htmllaundry==2.2
 mysqlclient==2.0.1
 python-ldap==3.3.1
 pycryptodome==3.9.8
+requests==2.25.1
 wemake-python-styleguide==0.13.3
