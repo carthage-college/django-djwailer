@@ -61,6 +61,7 @@ def main():
     update livewhale_course_catalog set disc="" where dept="EDU";
     update livewhale_course_catalog set disc="" where disc="MUS";
     update livewhale_course_catalog set disc="" where disc="MGT";
+    update livewhale_course_catalog set disc="AHS" where crs_no like "AHS %";
 
     4) execute the GR* URL for EDU:
 
@@ -89,7 +90,14 @@ def main():
     update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT";
     update livewhale_course_catalog set disc="MGT" where dept="MMK" and disc="";
 
-    7) generate the PDF with the prince command:
+    7) execute the GR* URL for ATH:
+
+    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/ATH/?api_key=xx
+
+    update livewhale_course_catalog set disc="MAT" where dept="_ATH" and disc="ATH";
+
+
+    8) generate the PDF with the prince command:
 
     ssh ganymede.carthage.edu
     cd /d2/www/vhosts/carthage.edu/subdomains/ganymede/httpdocs/academics/catalog/print/
@@ -97,14 +105,11 @@ def main():
     /usr/local/bin/prince \
     https://www.carthage.edu/academics/catalog/print/index.php -o catalog.pdf
 
-    8) optionally, set up a cronjob that runs every five minutes:
+    9) optionally, set up a cronjob that runs every five minutes:
 
     */5 * * * * /usr/local/bin/prince https://www.carthage.edu/academics/catalog/print/
     --output=/d2/livewhale/content/academics/catalog/print/catalog.pdf >> /dev/null 2>&1
 
-    Documentation:
-
-    https://carthage.gitbook.io/documentation/web-development/catalog
     """
     response = requests.get(earl, headers={'Cache-Control': 'no-cache'})
     json_response = serializers.deserialize('json', response.text)
