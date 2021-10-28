@@ -56,7 +56,7 @@ urlpatterns = [
     path('bridge/', include('djwailer.bridge.urls')),
     path(
         'bridget/',
-        TemplateView.as_view(template_name="bridge/maintenance_mode.html"),
+        TemplateView.as_view(template_name='bridge/maintenance_mode.html'),
     ),
-    path('', RedirectView.as_view(url="/bridge/submit/")),
+    path('', RedirectView.as_view(url='https://www.carthage.edu/bridge/submit/')),
 ]
