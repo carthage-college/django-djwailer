@@ -176,8 +176,35 @@ class LivewhaleBlogsPostsFields(models.Model):
         db_table = 'livewhale_blogs_posts_fields'
 
 
+class LivewhaleGroups(models.Model):
+    id = models.CharField(primary_key=True, max_length=255)
+    fullname = models.CharField(max_length=255)
+    fullname_public = models.CharField(max_length=255, blank=True, null=True)
+    directory = models.CharField(max_length=255, blank=True, null=True)
+    modules = models.CharField(max_length=500, blank=True, null=True)
+    timezone = models.CharField(max_length=255, blank=True, null=True)
+    default_template = models.CharField(max_length=255, blank=True, null=True)
+    twitter_name = models.CharField(max_length=30, blank=True, null=True)
+    facebook_name = models.CharField(max_length=30, blank=True, null=True)
+    instagram_name = models.CharField(max_length=30, blank=True, null=True)
+    date_created = models.DateTimeField()
+    last_modified = models.DateTimeField()
+    last_user = models.IntegerField()
+    created_by = models.IntegerField(blank=True, null=True)
+    weather_id = models.CharField(max_length=30, blank=True, null=True)
+    use_gid = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'livewhale_groups'
+
+
 class LivewhaleBlurbs(models.Model):
-    gid = models.IntegerField()
+    gid = models.ForeignKey(
+        LivewhaleGroups,
+        related_name='group',
+        on_delete=models.PROTECT,
+    )
     suggested = models.CharField(max_length=500, blank=True, null=True)
     parent = models.IntegerField(blank=True, null=True)
     tid = models.IntegerField(blank=True, null=True)
@@ -204,6 +231,41 @@ class LivewhaleBlurbs(models.Model):
     class Meta:
         managed = False
         db_table = 'livewhale_blurbs'
+
+
+class LivewhaleBlurbsExport(models.Model):
+    gid = models.ForeignKey(
+        LivewhaleGroups,
+        related_name='group',
+        on_delete=models.PROTECT,
+        db_column='gid',
+    )
+    suggested = models.CharField(max_length=500, blank=True, null=True)
+    parent = models.IntegerField(blank=True, null=True)
+    tid = models.IntegerField(blank=True, null=True)
+    status = models.IntegerField()
+    visibility = models.IntegerField(blank=True, null=True, default=1)
+    date = models.CharField(max_length=255)
+    date_dt = models.DateTimeField()
+    title = models.CharField(max_length=255)
+    body = models.TextField(blank=True, null=True)
+    rank = models.IntegerField()
+    date_created = models.DateTimeField()
+    last_modified = models.DateTimeField()
+    last_user = models.IntegerField()
+    created_by = models.IntegerField(blank=True, null=True)
+    golive = models.DateTimeField(blank=True, null=True)
+    expiration = models.DateTimeField(blank=True, null=True)
+    is_archived = models.CharField(max_length=1, blank=True, null=True)
+    is_starred = models.IntegerField(blank=True, null=True)
+    is_shared = models.IntegerField(blank=True, null=True)
+    url = models.CharField(max_length=500, blank=True, null=True)
+    source = models.CharField(max_length=255, blank=True, null=True)
+    views = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'livewhale_blurbs_export'
 
 
 class LivewhaleBlurbsTypes(models.Model):
@@ -707,28 +769,6 @@ class LivewhaleGalleries2Any(models.Model):
         managed = False
         db_table = 'livewhale_galleries2any'
         unique_together = (('id1', 'id2', 'type'),)
-
-
-class LivewhaleGroups(models.Model):
-    fullname = models.CharField(max_length=255)
-    fullname_public = models.CharField(max_length=255, blank=True, null=True)
-    directory = models.CharField(max_length=255, blank=True, null=True)
-    modules = models.CharField(max_length=500, blank=True, null=True)
-    timezone = models.CharField(max_length=255, blank=True, null=True)
-    default_template = models.CharField(max_length=255, blank=True, null=True)
-    twitter_name = models.CharField(max_length=30, blank=True, null=True)
-    facebook_name = models.CharField(max_length=30, blank=True, null=True)
-    instagram_name = models.CharField(max_length=30, blank=True, null=True)
-    date_created = models.DateTimeField()
-    last_modified = models.DateTimeField()
-    last_user = models.IntegerField()
-    created_by = models.IntegerField(blank=True, null=True)
-    woeid = models.CharField(max_length=30, blank=True, null=True)
-    use_gid = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'livewhale_groups'
 
 
 class LivewhaleGroupsSettings(models.Model):
