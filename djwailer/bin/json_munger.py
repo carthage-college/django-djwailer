@@ -40,11 +40,11 @@ def main():
     URL structure:
 
     Physics
-    https://www.carthage.edu/apps/mapache/api/catalog/UG21/PHY/
+    https://www.carthage.edu/apps/mapache/api/catalog/UG22/PHY/
     ALL Undergraduate Courses
-    https://www.carthage.edu/apps/mapache/api/catalog/UG21/
+    https://www.carthage.edu/apps/mapache/api/catalog/UG22/
     All Graduate Courses
-    https://www.carthage.edu/apps/mapache/api/catalog/GR21/
+    https://www.carthage.edu/apps/mapache/api/catalog/GR22/
 
     NOTE: You can find the API Key in the djzbar settings file.
 
@@ -54,7 +54,7 @@ def main():
 
     2) import the UG* courses:
 
-    python bin/json_munger.py --url=carthage.edu/apps/mapache/api/catalog/UG21/?api_key=xx
+    python bin/json_munger.py --url=carthage.edu/apps/mapache/api/catalog/UG22/?api_key=xx
 
     3) execute the following SQL incantation:
 
@@ -65,7 +65,7 @@ def main():
 
     4) execute the GR* URL for EDU:
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/EDU/?api_key=xx
+    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR22/EDU/?api_key=xx
 
     execute the SQL incantation for EDU courses:
 
@@ -74,7 +74,7 @@ def main():
 
     5) execute the GR* URL FOR MUS:
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/MUS/?api_key=xx
+    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR22/MUS/?api_key=xx
 
     execute the SQL incantation for MUS courses:
 
@@ -83,7 +83,7 @@ def main():
 
     6) execute the GR* URL for MGT
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/MGT/?api_key=xx
+    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR22/MGT/?api_key=xx
 
     execute the SQL incantation for MGT courses:
 
@@ -92,7 +92,7 @@ def main():
 
     7) execute the GR* URL for ATH:
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/ATH/?api_key=xx
+    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR22/ATH/?api_key=xx
 
     update livewhale_course_catalog set disc="MAT" where dept="_ATH" and disc="ATH";
 
